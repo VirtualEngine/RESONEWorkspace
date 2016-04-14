@@ -8,7 +8,7 @@
     PowerShellVersion = '4.0';
     PrivateData = @{
         PSData = @{
-            Tags = @('VirtualEngine','RES','ONE Workspace','Workspace Manager','DSC');
+            Tags = @('VirtualEngine','RES','ONE','Workspace','Manager','DSC');
             LicenseUri = 'https://github.com/VirtualEngine/RESONEWorkspace/blob/master/LICENSE';
             ProjectUri = 'https://github.com/VirtualEngine/RESONEWorkspace';
         } # End of PSData hashtable
