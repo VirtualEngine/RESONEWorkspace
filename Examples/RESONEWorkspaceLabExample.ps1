@@ -42,5 +42,5 @@ configuration RESONEWorkspaceLabExample {
 } #end configuration RESONEWorkspaceLabExample
 
 if (-not $Cred) { $Cred = Get-Credential -UserName 'RESONEWorkspace' -Message 'RES ONE Workspace SQL account credential'; }
-if (-not $sqlCred) { $sqlCred = New-Object PSCredential -ArgumentList 'sa', (ConvertTo-SecureString -String 'Tra1ning' -AsPlainText -Force); }
+if (-not $sqlCred) { $sqlCred = Get-Credential -UserName 'sa' -Message 'Microsoft SQL Server account credential'; }
 RESONEWorkspaceLabExample -OutputPath ~\Documents -ConfigurationData $config -Credential $cred -SQLCredential $sqlCred;
