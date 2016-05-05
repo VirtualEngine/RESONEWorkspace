@@ -2,6 +2,7 @@ RES ONE Workspace DSC Resources
 ===============================
 ## Included Resources
 * **ROWBuildingBlock**: Adds/removes a RES ONE Workspace building block
+* **ROWCitrixProcessIntercept**: Manages RES ONE Workspace Citrix Process Intercept
 * **ROWConsole**: Installs the RES ONE Workspace console
 * **ROWCustomResource**: Adds/removes a RES ONE Workspace custom resource
 * **ROWDatabase**: Installs the RES ONE Workspace and creates the RES ONE Workspace database
@@ -12,6 +13,9 @@ RES ONE Workspace DSC Resources
 * **ROWLab**: Deploys a single-node RES ONE Workspace lab server environment
 * **ROWRelayServer**: Installs the RES ONE Workspace Relay Server component
 * **ROWRelayServerAgent**: Installs the RES ONE Workspace agent component connected via a RES ONE Workspace Relay Server
+
+## Required Resources
+* **xNetworking**: ROWLab requires https://github.com/PowerShell/xNetworking to create firewall rules
 
 ROWBuildingBlock
 ================
@@ -26,6 +30,18 @@ ROWBuildingBlock [String] #ResourceName
     [ Ensure = [String] { Absent | Present } ]
 }
 
+```
+
+ROWCitrixProcessIntercept
+=========================
+Manages the Citrix Process Intercept setting
+### Syntax
+```
+ROWCitrixProcessIntercept [String] #ResourceName
+{
+    Ensure = [String] { Absent | Present }
+    [ Architecture = [String] { x64 | x86 } ]
+}
 ```
 
 ROWConsole

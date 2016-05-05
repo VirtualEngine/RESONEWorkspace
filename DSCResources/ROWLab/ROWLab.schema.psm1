@@ -53,6 +53,7 @@ configuration ROWLab {
     )
 
     Import-DscResource -ModuleName xPSDesiredStateConfiguration;
+    Import-DscResource -ModuleName xNetworking;
     Import-DscResource -Name ROWDatabase, ROWEnvironmentGuid, ROWEnvironmentPassword, ROWRelayServer;
 
     if ($Ensure -eq 'Present') {
@@ -98,7 +99,7 @@ configuration ROWLab {
             Ensure = $Ensure;
             DependsOn = '[ROWDatabase]ROWLabDatabase';
         }
-
+        
     }
     elseif ($Ensure -eq 'Absent') {
         
@@ -125,10 +126,40 @@ configuration ROWLab {
             Version = $Version;
             UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
             Ensure = $Ensure;
-            DependsOn = '[ROWRelayServer]ROWLabRelayServer'
+            DependsOn = '[ROWRelayServer]ROWLabRelayServer';
         }
-
+        
         ## Can't remove the environment password or environment Guid!
+    }
+    
+    xFirewall 'ROWLabRelayServerFirewall' {
+        Name = 'RESONEWorkspace-TCP-{0}-In' -f $RelayServerPort;
+        Group = 'RES ONE Workspace';
+        Action = 'Allow';
+        Direction = 'Inbound';
+        DisplayName = 'RES ONE Workspace (Relay Server)';
+        Enabled = $true;
+        Profile = 'Domain';
+        LocalPort = $RelayServerPort;
+        Protocol = 'TCP';
+        Description = 'RES ONE Workspace Relay Server Service';
+        Ensure = $Ensure;
+        DependsOn = '[ROWRelayServer]ROWLabRelayServer'
+    }
+    
+    xFirewall 'ROWLabRelayServerDiscoveryFirewall' {
+        Name = 'RESONEWorkspace-UDP-1942-In' -f $RelayServerPort;
+        Group = 'RES ONE Workspace';
+        Action = 'Allow';
+        Direction = 'Inbound';
+        DisplayName = 'RES ONE Workspace (Relay Server Discovery)';
+        Enabled = $true;
+        Profile = 'Any';
+        LocalPort = '1942';
+        Protocol = 'UDP';
+        Description = 'RES ONE Workspace Relay Server Discovery Service';
+        Ensure = $Ensure;
+        DependsOn = '[ROWRelayServer]ROWLabRelayServer';
     }
 
 } #end configuration ROWLab

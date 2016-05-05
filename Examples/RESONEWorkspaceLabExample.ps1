@@ -9,6 +9,7 @@
             ROWBinariesFolder          = 'C:\SharedData\Software\RES\ONE Worksapce 2015\SR1';
             ROWBinariesVersion         = '9.10.1.0';
             ROWEnvironmentPasswordHash = '5E68E81153E9F01EBF8476AA8F99050A481DA9EA'; # Tra1ning
+            ROWRelayServerPort         = 1943;
         }
     )
 }
@@ -36,6 +37,7 @@ configuration RESONEWorkspaceLabExample {
             SQLCredential = $SQLCredential;
             Credential = $Credential;
             EnvironmentPasswordHash = $node.ROWEnvironmentPasswordHash;
+            RelayServerPort = $node.ROWRelayServerPort;
         }
     }
 

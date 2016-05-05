@@ -1,13 +1,11 @@
 @{
-    ModuleVersion = '1.0.2';
+    ModuleVersion = '1.1.0';
     GUID = 'da2df370-2b26-4319-aae7-ec4eebfd478d';
     Author = 'Iain Brighton';
     CompanyName = 'Virtual Engine';
     Copyright = '(c) 2016 Virtual Engine Limited. All rights reserved.';
-    Description = 'RES ONE Workspace composite DSC resources. These DSC resources are provided AS IS, and are not supported through any means.';
+    Description = 'RES ONE Workspace composite deployment and configuration DSC resources. These DSC resources are provided AS IS, and are not supported through any means.';
     PowerShellVersion = '4.0';
-    DscResourcesToExport = @('ROWBuildingBlock', 'ROWConsole', 'ROWCustomResource', 'ROWDatabase', 'ROWDatabaseAgent', 'ROWEnvironmentGuid',
-                             'ROWEnvironmentName', 'ROWEnvironmentPassword', 'ROWLab', 'ROWRelayServer', 'ROWRelayServerAgent');
     PrivateData = @{
         PSData = @{
             Tags = @('VirtualEngine','RES','ONE','Workspace','Manager','DSC');
