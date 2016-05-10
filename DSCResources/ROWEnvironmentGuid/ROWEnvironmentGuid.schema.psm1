@@ -27,8 +27,9 @@ configuration ROWEnvironmentGuid {
         
         GetScript = {
             $query = "SELECT strValue AS 'EnvironmentGuid' FROM {0}.dbo.tblSettings WHERE lngClassID = 39 AND strSettingLC = 'environmentguid';" -f $using:DatabaseName;
+            $osql = Get-ChildItem -Path "$env:SystemDrive\" -Filter 'OSQL.EXE' -Recurse | Select -First 1 -ExpandProperty FullName;
             Write-Verbose ('Executing query: {0}' -f $query);
-            $result = & OSQL.EXE -S "$using:DatabaseServer" -U "$using:dbUserName" -P "$using:dbPassword" -Q "$query";
+            $result = & $osql -S "$using:DatabaseServer" -U "$using:dbUserName" -P "$using:dbPassword" -Q "$query";
             $targetResource = @{
                 Result = ($result.Trim() -match "^$using:environmentGuidString`$");
             }
@@ -37,15 +38,17 @@ configuration ROWEnvironmentGuid {
         
         TestScript = {
             $query = "SELECT strValue AS 'EnvironmentGuid' FROM {0}.dbo.tblSettings WHERE lngClassID = 39 AND strSettingLC = 'environmentguid';" -f $using:DatabaseName;
+            $osql = Get-ChildItem -Path "$env:SystemDrive\" -Filter 'OSQL.EXE' -Recurse | Select -First 1 -ExpandProperty FullName;
             Write-Verbose ('Executing query: {0}' -f $query);
-            $result = & OSQL.EXE -S "$using:DatabaseServer" -U "$using:dbUsername" -P "$using:dbPassword" -Q "$query";
+            $result = & $osql -S "$using:DatabaseServer" -U "$using:dbUsername" -P "$using:dbPassword" -Q "$query";
             return ($result.Trim() -match "^$using:environmentGuidString`$") -as [System.Boolean];
         }
         
         SetScript = {
             $query = "UPDATE {0}.dbo.tblSettings SET strValue = '{1}' WHERE lngClassID = 39 AND strSettingLC = 'environmentguid';" -f $using:DatabaseName, $using:environmentGuidString;
+            $osql = Get-ChildItem -Path "$env:SystemDrive\" -Filter 'OSQL.EXE' -Recurse | Select -First 1 -ExpandProperty FullName;
             Write-Verbose ('Executing query: {0}' -f $query);
-            $result = & OSQL.EXE -S "$using:DatabaseServer" -U "$using:dbUsername" -P "$using:dbPassword" -Q "$query";
+            $result = & $osql -S "$using:DatabaseServer" -U "$using:dbUsername" -P "$using:dbPassword" -Q "$query";
         }
         
     }
