@@ -7,9 +7,6 @@ RES ONE Workspace DSC Resources
 * **ROWCustomResource**: Adds/removes a RES ONE Workspace custom resource
 * **ROWDatabase**: Installs the RES ONE Workspace and creates the RES ONE Workspace database
 * **ROWDatabaseAgent**: Installs the RES ONE Workspace agent component connected directly to the RES ONE Workspace database
-* **ROWEnvironmentGuid**: Sets the RES ONE Workspace Relay Server environment Guid
-* **ROWEnvironmentName**: Sets the RES ONE Workspace Relay Server environment name
-* **ROWEnvironmentPassword**: Sets the RES ONE Workspace Relay Server environment hashed password
 * **ROWLab**: Deploys a single-node RES ONE Workspace lab server environment
 * **ROWRelayServer**: Installs the RES ONE Workspace Relay Server component
 * **ROWRelayServerAgent**: Installs the RES ONE Workspace agent component connected via a RES ONE Workspace Relay Server
@@ -125,48 +122,6 @@ ROWDatabaseAgent [String] #ResourceName
 }
 ```
 
-ROWEnvironmentGuid
-==================
-Sets the RES ONE Workspace Relay Server environment Guid.
-### Syntax
-```
-ROWEnvironmentGuid [String] #ResourceName
-{
-    DatabaseServer = [String]
-    DatabaseName = [String]
-    Credential = [PSCredential]
-    EnvironmentGuid = [Guid]
-}
-```
-
-ROWEnvironmentName
-==================
-Sets the RES ONE Workspace Relay Server environment name.
-### Syntax
-```
-ROWEnvironmentName [String] #ResourceName
-{
-    DatabaseServer = [String]
-    DatabaseName = [String]
-    Credential = [PSCredential]
-    EnvironmentName = [String]
-}
-```
-
-ROWEnvironmentPassword
-======================
-Sets the RES ONE Workspace Relay Server environment hashed password.
-### Syntax
-```
-ROWEnvironmentPassword [String] #ResourceName
-{
-    DatabaseServer = [String]
-    DatabaseName = [String]
-    Credential = [PSCredential]
-    EnvironmentPasswordHash = [String]
-}
-```
-
 ROWLab
 ======
 Deploys a single-node RES ONE Workspace lab server environment.
@@ -180,10 +135,8 @@ ROWLab [String] #ResourceName
     SQLCredential = [PSCredential]
     Path = [String]
     Version = [String]
-    EnvironmentPasswordHash = [String]
     [ RelayServerPort = [Int32] ]
     [ UseDatabaseProtocolEncryption = [Boolean] ]
-    [ EnvironmentGuid = [Guid] ]
     [ Architecture = [String] { x64 | x86 } ]
     [ Ensure = [String] { Absent | Present } ]
 }
