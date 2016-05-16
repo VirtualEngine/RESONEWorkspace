@@ -13,16 +13,17 @@ RES ONE Workspace DSC Resources
 
 ## Required Resources
 * **xNetworking**: ROWLab requires https://github.com/PowerShell/xNetworking to create firewall rules
+* **LegacyNetworking**: ROWDatabaseAgent and ROWRelayServerAgent require https://github.com/VirtualEngine/LegacyNetworking to create firewall rules
 
 ROWBuildingBlock
 ================
-Adds/removes a RES ONE Workspace building block.
+Adds/removes a RES ONE Workspace building block. **NOTE: Requires Windows Management Framework 5.** 
 ### Syntax
 ```
 ROWBuildingBlock [String] #ResourceName
 {
     Path = [String]
-    Credential = [PSCredential]
+    PsDscRunAsCredential = [PSCredential]
     [ Architecture = [String] { x64 | x86 } ]
     [ Ensure = [String] { Absent | Present } ]
 }
@@ -31,7 +32,7 @@ ROWBuildingBlock [String] #ResourceName
 
 ROWCitrixProcessIntercept
 =========================
-Manages the Citrix Process Intercept setting
+Manages Process Intercept setting on Citrix XenApp/XenDesktop application publishing servers.
 ### Syntax
 ```
 ROWCitrixProcessIntercept [String] #ResourceName
@@ -62,13 +63,13 @@ ROWConsole [String] #ResourceName
 
 ROWCustomResource
 =================
-Adds/removes a RES ONE Workspace custom resource.
+Adds/removes a RES ONE Workspace custom resource. **NOTE: Requires Windows Management Framework 5.**
 ### Syntax
 ```
 ROWCustomResource [String] #ResourceName
 {
     Path = [String]
-    Credential = [PSCredential]
+    PsDscRunAsCredential = [PSCredential]
     [ ResourcePath = [String] ]
     [ Architecture = [String] { x64 | x86 } ]
     [ Ensure = [String] { Absent | Present } ]

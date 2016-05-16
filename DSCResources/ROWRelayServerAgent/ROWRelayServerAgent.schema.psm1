@@ -71,7 +71,7 @@ configuration ROWRelayServerAgent {
         [System.String] $Ensure = 'Present'
     )
 
-    Import-DscResource -ModuleName xPSDesiredStateConfiguration;
+    Import-DscResource -ModuleName xPSDesiredStateConfiguration, LegacyNetworking;
 
     $resourceName = 'ROWRelayServerAgent';
     if (([System.String]::IsNullOrWhitespace($Version)) -and (-not $IsLiteralPath)) {
@@ -162,26 +162,41 @@ configuration ROWRelayServerAgent {
     }
 
     if ($PSBoundParameters.ContainsKey('RelayServerDiscovery')) {
-        if ($RelayServerDiscovery -eq $true) {            $arguments += 'RSDISCOVER="yes"';        }    }
+        if ($RelayServerDiscovery -eq $true) {
+            $arguments += 'RSDISCOVER="yes"';
+        }
+    }
 
     if ($PSBoundParameters.ContainsKey('RelayServerList')) {
-        $arguments += 'RSLIST="{0}"' -f ($RelayServerList -join ';');    }
+        $arguments += 'RSLIST="{0}"' -f ($RelayServerList -join ';');
+    }
 
     if ($PSBoundParameters.ContainsKey('$RelayServerDnsName')) {
-        $arguments += 'RSRESOLVE="{0}"' -f $RelayServerDnsName;    }
+        $arguments += 'RSRESOLVE="{0}"' -f $RelayServerDnsName;
+    }
 
     if ($PSBoundParameters.ContainsKey('InheritSettings')) {
-        if ($InheritSettings -eq $true) {            $arguments += 'INHERITSETTINGS="yes"';        }    }
+        if ($InheritSettings -eq $true) {
+            $arguments += 'INHERITSETTINGS="yes"';
+        }
+    }
 
     if ($PSBoundParameters.ContainsKey('EnableWorkspaceComposer')) {
-        if ($InheritSettings -eq $true) {            $arguments += 'AUTORUNCOMPOSER="yes"';        }    }
+        if ($InheritSettings -eq $true) {
+            $arguments += 'AUTORUNCOMPOSER="yes"';
+        }
+    }
 
     if ($PSBoundParameters.ContainsKey('NoDesktopShortcut')) {
-        if (-not $NoDesktopShortcut) {            $arguments += 'AI_DESKTOP_SH="0"';        }
+        if (-not $NoDesktopShortcut) {
+            $arguments += 'AI_DESKTOP_SH="0"';
+        }
     }
 
     if ($PSBoundParameters.ContainsKey('NoStartMenuShortcut')) {
-        if (-not $NoStartMenuShortcut) {            $arguments += 'AI_STARTMENU_SH="0"';        }
+        if (-not $NoStartMenuShortcut) {
+            $arguments += 'AI_STARTMENU_SH="0"';
+        }
     }
 
     if ($PSBoundParameters.ContainsKey('AddToWorkspace')) {
@@ -209,5 +224,18 @@ configuration ROWRelayServerAgent {
             Ensure = $Ensure;
         }
     }
+    
+    vFirewall 'ROWLabRelayServerAgentFirewall' {
+        DisplayName = 'RES ONE Workspace Manger (Agent)';
+        Action = 'Allow';
+        Direction = 'Inbound';
+        Enabled = $true;
+        Profile = 'Any';
+        Protocol = 'TCP';
+        LocalPort = 1942;
+        Description = 'RES ONE Workspace Agent Service';
+        Ensure = $Ensure;
+        DependsOn = "[xPackage]$resourceName";
+    }
 
-}
+} #end configuration ROWRelayServerAgent

@@ -115,7 +115,7 @@ configuration ROWLab {
         Direction = 'Inbound';
         DisplayName = 'RES ONE Workspace (Relay Server)';
         Enabled = $true;
-        Profile = 'Domain';
+        Profile = 'Any';
         LocalPort = $RelayServerPort;
         Protocol = 'TCP';
         Description = 'RES ONE Workspace Relay Server Service';
