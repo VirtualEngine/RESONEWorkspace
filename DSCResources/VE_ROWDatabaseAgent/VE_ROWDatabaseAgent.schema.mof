@@ -1,0 +1,19 @@
+[ClassVersion("1.0.0.0"), FriendlyName("ROWDatabaseAgent")]
+class VE_ROWDatabaseAgent : OMI_BaseResource
+{
+    [Key, Description("RES ONE Workspace database server name/instance (DBSERVER)")] String DatabaseServer;
+    [Key, Description("RES ONE Workspace database name (DBNAME)")] String DatabaseName;
+    [Required, Description("Install full agent including the console or agent only"), ValueMap{"Full","AgentOnly"}, Values{"Full","AgentOnly"}] String Agent;
+    [Required, Description("Microsoft SQL username/password to create (DBUSER/DBPASSWORD)"), EmbeddedInstance("MSFT_Credential")] String Credential;
+    [Required, Description("File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI file")] String Path;
+    [Required, Description("Inherit RES ONE Workspace connection settings")] Boolean InheritSettings;
+    [Required, Description("Enable the RES ONE Workspace composer")] Boolean EnableWorkspaceComposer;
+    [Write, Description("Use Database protocol encryption")] Boolean UseDatabaseProtocolEncryption;
+    [Write, Description("Do not create a desktop shortcut")] Boolean NoDesktopShortcut;
+    [Write, Description("Do not create a Start Menu shortcut")] Boolean NoStartMenuShortcut;
+    [Write, Description("RES ONE Workspace Agent Service account (RES ONE Workspace 2015+ only)"), EmbeddedInstance("MSFT_Credential")] String ServiceAccountCredential;
+    [Write, Description("Add RES ONE Workspace Agent to Workspace containers")] String AddToWorkspace[];
+    [Write, Description("RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.1")] String Version;
+    [Write, Description("The specified Path is a literal file reference (bypasses the Version check)")] Boolean IsLiteralPath;
+    [Write, Description("Should this resource be present or absent"), ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+};

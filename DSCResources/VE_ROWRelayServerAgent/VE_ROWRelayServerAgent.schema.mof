@@ -1,0 +1,20 @@
+[ClassVersion("1.0.0.0"), FriendlyName("ROWRelayServerAgent")]
+class VE_ROWRelayServerAgent : OMI_BaseResource
+{
+    [Key, Description("RES ONE Workspace Relay Server environment GUID (RSENVGUID)")] String EnvironmentGuid;
+    [Required, Description("Install full agent including the console or agent only"), ValueMap{"Full","AgentOnly"}, Values{"Full","AgentOnly"}] String Agent;
+    [Required, Description("RES ONE Workspace Relay Server environment password (RSPASSWORD)"), EmbeddedInstance("MSFT_Credential")] String EnvironmentPassword;
+    [Required, Description("File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI file")] String Path;
+    [Required, Description("Inherit RES ONE Workspace connection settings")] Boolean InheritSettings;
+    [Required, Description("Enable the RES ONE Workspace composer")] Boolean EnableWorkspaceComposer;
+    [Write, Description("RES ONE Workspace Relay Server environment password is hashed")] Boolean EnvironmentPasswordIsHashed;
+    [Write, Description("Enable RES ONE Workspace Relay Server multicast discovery")] Boolean RelayServerDiscovery;
+    [Write, Description("Use specified RES ONE Workspace Relay Servers")] String RelayServerList[];
+    [Write, Description("Resolve RES ONE Workspace Relay Server via DNS")] String RelayServerDnsName;
+    [Write, Description("Do not create a desktop shortcut")] Boolean NoDesktopShortcut;
+    [Write, Description("Do not create a Start Menu shortcut")] Boolean NoStartMenuShortcut;
+    [Write, Description("Add RES ONE Workspace Agent to Workspace containers")] String AddToWorkspace[];
+    [Write, Description("RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.1")] String Version;
+    [Write, Description("The specified Path is a literal file reference (bypasses the Version check)")] Boolean IsLiteralPath;
+    [Write, Description("Should this resource be present or absent"), ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+};

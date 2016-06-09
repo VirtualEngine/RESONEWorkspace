@@ -1,6 +1,6 @@
 #requires -Version 5
 
-configuration ROWBuildingBlock {
+configuration ROWLabBuildingBlock {
 <#
     .SYNOPSIS
         Adds/removes a RES ONE Workspace custom resource console.
@@ -50,7 +50,7 @@ configuration ROWBuildingBlock {
         PsDscRunAsCredential = $Credential;
         InstalledCheckRegKey = 'Software\VirtualEngine';
         InstalledCheckRegValueName = $resourceName;
-        InstalledCheckRegValueData = 'ROWBuildingBlock';
+        InstalledCheckRegValueData = 'ROWLabBuildingBlock';
         CreateCheckRegValue = $true;
         Ensure = $Ensure;
     }

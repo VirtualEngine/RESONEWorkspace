@@ -20,7 +20,7 @@ configuration ROWLab {
         [Parameter(Mandatory)]
         [System.Management.Automation.PSCredential] $SQLCredential,
         
-        ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
+        ## File path containing the RES ONE Workspace MSIs.
         [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
@@ -30,16 +30,12 @@ configuration ROWLab {
 
         ## RES ONE Workspace Relay Server port
         [Parameter()] [ValidateNotNull()]
-        [System.Int32] $RelayServerPort = 1943,
+        [System.UInt16] $RelayServerPort = 1943,
 
         ## Use Database protocol encryption
         [Parameter()] [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
         
-        ## The target node's architecture.
-        [Parameter()] [ValidateSet('x64','x86')]
-        [System.String] $Architecture = 'x64',
-
         [Parameter()] [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
@@ -70,7 +66,6 @@ configuration ROWLab {
             IsLiteralPath = $false;
             Version = $Version;
             UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-            Architecture = $Architecture;
             Port = $RelayServerPort;
             Ensure = $Ensure;
             DependsOn = '[ROWDatabase]ROWLabDatabase';
@@ -87,7 +82,6 @@ configuration ROWLab {
             IsLiteralPath = $false;
             Version = $Version;
             UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-            Architecture = $Architecture;
             Port = $RelayServerPort;
             Ensure = $Ensure;
         }
@@ -105,7 +99,6 @@ configuration ROWLab {
             DependsOn = '[ROWRelayServer]ROWLabRelayServer';
         }
         
-        ## Can't remove the environment password or environment Guid!
     }
     
     xFirewall 'ROWLabRelayServerFirewall' {
@@ -124,7 +117,7 @@ configuration ROWLab {
     }
     
     xFirewall 'ROWLabRelayServerDiscoveryFirewall' {
-        Name = 'RESONEWorkspace-UDP-1942-In' -f $RelayServerPort;
+        Name = 'RESONEWorkspace-UDP-1942-In';
         Group = 'RES ONE Workspace';
         Action = 'Allow';
         Direction = 'Inbound';

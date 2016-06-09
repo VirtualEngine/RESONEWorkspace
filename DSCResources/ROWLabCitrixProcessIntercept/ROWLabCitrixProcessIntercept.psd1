@@ -1,5 +1,5 @@
 @{
-    RootModule = 'ROWCitrixProcessIntercept.schema.psm1';
+    RootModule = 'ROWLabCitrixProcessIntercept.schema.psm1';
     ModuleVersion = '1.0';
     GUID = 'eeb18432-d29e-476d-ae13-d62729bdafe8';
     Author = 'Iain Brighton';

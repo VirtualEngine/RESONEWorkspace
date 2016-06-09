@@ -1,0 +1,14 @@
+[ClassVersion("1.0.0.0"), FriendlyName("ROWRelayServer")]
+class VE_ROWRelayServer : OMI_BaseResource
+{
+    [Key, Description("RES ONE Workspace database server name/instance (DBSERVER)")] String DatabaseServer;
+    [Key, Description("RES ONE Workspace database name (DBNAME)")] String DatabaseName;
+    [Required, Description("Microsoft SQL username/password to create (DBUSER/DBPASSWORD)"), EmbeddedInstance("MSFT_Credential")] String Credential;
+    [Required, Description("File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI file")] String Path;
+    [Required, Description("RES ONE Workspace Relay Server port")] Uint16 Port;
+    [Write, Description("Use Database protocol encryption")] Boolean UseDatabaseProtocolEncryption;
+    [Write, Description("RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.1")] String Version;
+    [Write, Description("RES ONE Workspace Relay Server cache location")] String CachePath;
+    [Write, Description("The specified Path is a literal file reference (bypasses the Version check)")] Boolean IsLiteralPath;
+    [Write, Description("Should this resource be present or absent"), ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+};

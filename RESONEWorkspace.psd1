@@ -1,5 +1,5 @@
 @{
-    ModuleVersion = '1.3.1';
+    ModuleVersion = '2.0.0';
     GUID = 'da2df370-2b26-4319-aae7-ec4eebfd478d';
     Author = 'Iain Brighton';
     CompanyName = 'Virtual Engine';

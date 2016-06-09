@@ -1,10 +1,13 @@
 #requires -Version 5
 
-configuration ROWCustomResource {
+configuration ROWLabCustomResource {
 <#
     .SYNOPSIS
         Adds/removes a RES ONE Workspace custom resource console.
-
+    .NOTES
+        Requires a relative path to the resource file. Will need to do some testing
+        using Push/Pop-Location inside the LCM to see whether it works or not.
+        
         pwrtech /addresource "resourcefile" /path="path" [/guid="guid"]
         pwrtech /delresource /path="fullpath" [/guid="guid"] (either path OR guid)
 #>
@@ -68,7 +71,7 @@ configuration ROWCustomResource {
         PsDscRunAsCredential = $Credential;
         InstalledCheckRegKey = 'Software\VirtualEngine';
         InstalledCheckRegValueName = $resourceName;
-        InstalledCheckRegValueData = 'ROWCustomResource';
+        InstalledCheckRegValueData = 'ROWLabCustomResource';
         CreateCheckRegValue = $true;
         Ensure = $Ensure;
     }
