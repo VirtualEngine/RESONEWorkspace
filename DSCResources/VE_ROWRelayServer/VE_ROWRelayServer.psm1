@@ -197,7 +197,7 @@ function Set-TargetResource {
     ## Start install/uninstall
     $arguments += '/norestart';
     $arguments += '/qn';
-    StartWaitProcess -FilePath "$env:WINDIR\System32\msiexec.exe" -ArgumentList $arguments -Verbose$Verbose;
+    StartWaitProcess -FilePath "$env:WINDIR\System32\msiexec.exe" -ArgumentList $arguments -Verbose:$Verbose;
     
 } #end function Set-TargetResource
 
