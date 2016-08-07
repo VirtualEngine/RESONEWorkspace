@@ -14,42 +14,52 @@ function Get-TargetResource {
     [OutputType([System.Collections.Hashtable])]
     param (
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to connect (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $Credential,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## RES ONE Workspace Relay Server port
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.UInt16] $Port,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
-        
+
         ## RES ONE Workspace Relay Server cache location
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $CachePath,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -59,10 +69,10 @@ function Get-TargetResource {
     $targetResource = @{
         Path = $setupPath;
         ProductName = $productName;
-        Ensure = if (GetProductEntry -Name $productName) { 'Present' } else { 'Absent' };       
+        Ensure = if (GetProductEntry -Name $productName) { 'Present' } else { 'Absent' };
     }
-    return $targetResource; 
-    
+    return $targetResource;
+
 } #end function Get-TargetResource
 
 
@@ -71,42 +81,52 @@ function Test-TargetResource {
     [OutputType([System.Boolean])]
     param (
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to connect (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $Credential,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## RES ONE Workspace Relay Server port
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.UInt16] $Port,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
-        
+
         ## RES ONE Workspace Relay Server cache location
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $CachePath,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -120,56 +140,67 @@ function Test-TargetResource {
         Write-Verbose -Message ($localizedData.ResourceInDesiredState -f $targetResource.ProductName);
         return $true;
     }
-    
+
 } #end function Test-TargetResource
 
 
 function Set-TargetResource {
     [CmdletBinding()]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param (
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to connect (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $Credential,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## RES ONE Workspace Relay Server port
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.UInt16] $Port,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
-        
+
         ## RES ONE Workspace Relay Server cache location
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $CachePath,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
     $setupPath = ResolveROWPackagePath -Path $Path -Component 'RelayServer' -Version $Version -IsLiteralPath:$IsLiteralPath -Verbose:$Verbose;
     if ($Ensure -eq 'Present') {
-    
+
         $arguments = @(
             ('/i "{0}"' -f $setupPath),
             ('DBSERVER="{0}"' -f $DatabaseServer),
@@ -198,7 +229,7 @@ function Set-TargetResource {
     $arguments += '/norestart';
     $arguments += '/qn';
     StartWaitProcess -FilePath "$env:WINDIR\System32\msiexec.exe" -ArgumentList $arguments -Verbose:$Verbose;
-    
+
 } #end function Set-TargetResource
 
 

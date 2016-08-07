@@ -15,62 +15,78 @@ function Get-TargetResource {
     [OutputType([System.Collections.Hashtable])]
     param (
         ## Install full agent including the console or agent only
-        [Parameter(Mandatory)] [ValidateSet('Full','AgentOnly')]
+        [Parameter(Mandatory)]
+        [ValidateSet('Full','AgentOnly')]
         [System.String] $Agent,
-        
+
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to connect (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $Credential,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## Inherit RES ONE Workspace connection settings
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Boolean] $InheritSettings,
 
         ## Enable the RES ONE Workspace composer
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Boolean] $EnableWorkspaceComposer,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
 
         ## Do not create a desktop shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoDesktopShortcut,
 
         ## Do not create a Start Menu shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoStartMenuShortcut,
 
         ## RES ONE Workspace Agent Service account (RES ONE Workspace 2015+ only)
-        [Parameter()] [ValidateNotNull()]
-        [System.Management.Automation.PSCredential] $ServiceAccountCredential,
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $ServiceAccountCredential,
 
         ## Add RES ONE Workspace Agent to Workspace containers"
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String[]] $AddToWorkspace,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -84,10 +100,10 @@ function Get-TargetResource {
     $targetResource = @{
         Path = $setupPath;
         ProductName = $productName;
-        Ensure = if (GetProductEntry -Name $productName) { 'Present' } else { 'Absent' };       
+        Ensure = if (GetProductEntry -Name $productName) { 'Present' } else { 'Absent' };
     }
-    return $targetResource; 
-    
+    return $targetResource;
+
 } #end function Get-TargetResource
 
 
@@ -96,62 +112,78 @@ function Test-TargetResource {
     [OutputType([System.Boolean])]
     param (
         ## Install full agent including the console or agent only
-        [Parameter(Mandatory)] [ValidateSet('Full','AgentOnly')]
+        [Parameter(Mandatory)]
+        [ValidateSet('Full','AgentOnly')]
         [System.String] $Agent,
-        
+
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to connect (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $Credential,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## Inherit RES ONE Workspace connection settings
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Boolean] $InheritSettings,
 
         ## Enable the RES ONE Workspace composer
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Boolean] $EnableWorkspaceComposer,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
 
         ## Do not create a desktop shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoDesktopShortcut,
 
         ## Do not create a Start Menu shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoStartMenuShortcut,
 
         ## RES ONE Workspace Agent Service account (RES ONE Workspace 2015+ only)
-        [Parameter()] [ValidateNotNull()]
-        [System.Management.Automation.PSCredential] $ServiceAccountCredential,
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $ServiceAccountCredential,
 
         ## Add RES ONE Workspace Agent to Workspace containers"
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String[]] $AddToWorkspace,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -165,70 +197,87 @@ function Test-TargetResource {
         Write-Verbose -Message ($localizedData.ResourceInDesiredState -f $targetResource.ProductName);
         return $true;
     }
-    
+
 } #end function Test-TargetResource
 
 
 function Set-TargetResource {
     [CmdletBinding()]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSUseShouldProcessForStateChangingFunctions', '')]
     param (
         ## Install full agent including the console or agent only
-        [Parameter(Mandatory)] [ValidateSet('Full','AgentOnly')]
+        [Parameter(Mandatory)]
+        [ValidateSet('Full','AgentOnly')]
         [System.String] $Agent,
-        
+
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to connect (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $Credential,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## Inherit RES ONE Workspace connection settings
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Boolean] $InheritSettings,
 
         ## Enable the RES ONE Workspace composer
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Boolean] $EnableWorkspaceComposer,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
 
         ## Do not create a desktop shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoDesktopShortcut,
 
         ## Do not create a Start Menu shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoStartMenuShortcut,
 
         ## RES ONE Workspace Agent Service account (RES ONE Workspace 2015+ only)
-        [Parameter()] [ValidateNotNull()]
-        [System.Management.Automation.PSCredential] $ServiceAccountCredential,
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $ServiceAccountCredential,
 
         ## Add RES ONE Workspace Agent to Workspace containers"
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String[]] $AddToWorkspace,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -238,7 +287,7 @@ function Set-TargetResource {
     }
     $setupPath = ResolveROWPackagePath -Path $Path -Component $agentComponent -Version $Version -IsLiteralPath:$IsLiteralPath -Verbose:$Verbose;
     if ($Ensure -eq 'Present') {
-    
+
         $arguments = @(
             ('/i "{0}"' -f $setupPath),
             ('DBSERVER="{0}"' -f $DatabaseServer),
@@ -301,7 +350,7 @@ function Set-TargetResource {
     $arguments += '/norestart';
     $arguments += '/qn';
     StartWaitProcess -FilePath "$env:WINDIR\System32\msiexec.exe" -ArgumentList $arguments -Verbose:$Verbose;
-    
+
 } #end function Set-TargetResource
 
 

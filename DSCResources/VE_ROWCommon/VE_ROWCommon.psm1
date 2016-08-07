@@ -34,10 +34,11 @@ function GetWindowsInstallerPackageProperty {
     [CmdletBinding()]
     [OutputType([System.String])]
     param (
-        [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName='Path')]
-        [ValidateNotNullOrEmpty()] [Alias('PSPath','FullName')]
+        [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName = 'Path')]
+        [ValidateNotNullOrEmpty()]
+        [Alias('PSPath','FullName')]
         [System.String] $Path,
-        
+
         [Parameter(Mandatory, Position = 0, ValueFromPipelineByPropertyName, ParameterSetName = 'LiteralPath')]
         [ValidateNotNullOrEmpty()]
         [System.String] $LiteralPath,
@@ -51,6 +52,7 @@ function GetWindowsInstallerPackageProperty {
         if ($PSCmdlet.ParameterSetName -eq 'Path') {
             $LiteralPath += $ExecutionContext.SessionState.Path.GetUnresolvedProviderPathFromPSPath($Path);
         }
+
     } #end begin
     process {
 
@@ -64,7 +66,7 @@ function GetWindowsInstallerPackageProperty {
             $record = $view.GetType().InvokeMember('Fetch','InvokeMethod', $null, $view, $null);
             $value = $record.GetType().InvokeMember('StringData', 'GetProperty', $null, $record, 1);
             return $value;
-        } 
+        }
         catch {
             throw;
         }
@@ -84,11 +86,13 @@ function StartWaitProcess {
     [OutputType([System.Int32])]
     param (
         # Path to process to start.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $FilePath,
 
         # Arguments (if any) to apply to the process.
-        [Parameter()] [AllowNull()]
+        [Parameter()]
+        [AllowNull()]
         [System.String[]] $ArgumentList,
 
         # Credential to start the process as.
@@ -98,7 +102,8 @@ function StartWaitProcess {
         $Credential,
 
         # Working directory
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $WorkingDirectory = (Split-Path -Path $FilePath -Parent)
     )
     process {
@@ -135,7 +140,7 @@ function StartWaitProcess {
             Write-Verbose ($localizedData.ProcessExited -f $process.Id, $exitCode);
         }
         return $exitCode;
-        
+
     } #end process
 } #end function StartWaitProcess
 
@@ -146,22 +151,28 @@ function GetProductEntry {
         https://github.com/PowerShell/xPSDesiredStateConfiguration/blob/dev/DSCResources/MSFT_xPackageResource/MSFT_xPackageResource.psm1
 #>
     param (
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Name,
-        
-        [Parameter()] [ValidateNotNullOrEmpty()]
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $IdentifyingNumber,
-        
-        [Parameter()] [ValidateNotNullOrEmpty()]
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $InstalledCheckRegHive = 'LocalMachine',
-        
-        [Parameter()] [ValidateNotNullOrEmpty()]
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $InstalledCheckRegKey,
-        
-        [Parameter()] [ValidateNotNullOrEmpty()]
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $InstalledCheckRegValueName,
-        
-        [Parameter()] [ValidateNotNullOrEmpty()]
+
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $InstalledCheckRegValueData
     )
 
@@ -191,13 +202,13 @@ function GetProductEntry {
             Key = $InstalledCheckRegKey;
             Value = $InstalledCheckRegValueName;
         }
-        
+
         #if 64bit OS, check 64bit registry view first
         if ([System.Environment]::Is64BitOperatingSystem) {
             $installValue = GetRegistryValueIgnoreError @getRegistryValueIgnoreErrorParams -RegistryView [Microsoft.Win32.RegistryView]::Registry64;
         }
 
-        if ($installValue -eq $null) {
+        if ($null -eq $installValue) {
             $installValue = GetRegistryValueIgnoreError @getRegistryValueIgnoreErrorParams -RegistryView [Microsoft.Win32.RegistryView]::Registry32;
         }
 
@@ -223,7 +234,7 @@ function GetRegistryValueIgnoreError {
         [Parameter(Mandatory)]
         [Microsoft.Win32.RegistryHive] $RegistryHive,
 
-        [Parameter(Mandatory)] 
+        [Parameter(Mandatory)]
         [System.String] $Key,
 
         [Parameter(Mandatory)]
@@ -236,7 +247,7 @@ function GetRegistryValueIgnoreError {
     try {
         $baseKey = [Microsoft.Win32.RegistryKey]::OpenBaseKey($RegistryHive, $RegistryView);
         $subKey =  $baseKey.OpenSubKey($Key);
-        if($subKey -ne $null) {
+        if ($null -ne $subKey) {
             return $subKey.GetValue($Value);
         }
     }
@@ -258,7 +269,7 @@ function GetLocalizableRegKeyValue {
     param (
         [Parameter()]
         [System.Object] $RegKey,
-        
+
         [Parameter()]
         [System.String] $ValueName
     )
@@ -281,15 +292,15 @@ function ResolveROWPackagePath {
         ## The literal file path or root search path
         [Parameter(Mandatory)]  [ValidateNotNullOrEmpty()]
         [System.String] $Path,
-        
+
         ## Required RES ONE Workspace/Workspace Manager component
         [Parameter(Mandatory)] [ValidateSet('Console','AgentOnly','FullAgent','RelayServer')]
         [System.String] $Component,
-        
+
         ## RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.2
         [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
         [Parameter()]
         [System.Boolean] $IsLiteralPath
@@ -311,13 +322,13 @@ function ResolveROWPackagePath {
         $packagePath = $Path;
     }
     else {
-        
+
         [System.Version] $productVersion = $Version;
-        
+
         switch ($productVersion.Major) {
-        
+
             9 {
-        
+
                 switch ($productVersion.Minor) {
 
                     9 {
@@ -333,21 +344,21 @@ function ResolveROWPackagePath {
                     }
 
                 } #end switch version minor
-            
+
             }
-        
+
             Default {
                 throw ($LocalizedData.UnsupportedVersionError -f $Version);
             }
-        
+
         } #end switch version major
 
         switch ($Component) {
 
             'AgentOnly' {
-                
+
                 ## RES-ONE-Workspace-2015-Agent-SR1 or RES-WM-2014-Agent-SR1
-                
+
                 $productDescription = 'Agent';
 
                 if ($productVersion.Build -eq 0) {
@@ -366,11 +377,11 @@ function ResolveROWPackagePath {
             } #end switch AgentOnly
 
             'FullAgent' {
-        
+
                 ## RES-ONE-Workspace-2015-SR1 or RES-WM-2014-SR3
-                
+
                 $productDescription = '';
-                
+
                 if ($productVersion.Build -eq 0) {
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}.msi' -f $packageName;
@@ -387,7 +398,7 @@ function ResolveROWPackagePath {
             } #end switch FullAgent
 
             'RelayServer' {
-        
+
                 ## RES-ONE-Workspace-2015-SR1-Relay-Server(x64)-9.10.1.5 or RES-WM-2014-SR3-Relay-Server(x64)-9.9.3.0
 
                 $productDescription = 'Relay Server';
@@ -413,11 +424,11 @@ function ResolveROWPackagePath {
             } #end switch Relay Server
 
             Default {
-        
+
                 ## RES-ONE-Workspace-2015-Console-SR1 or RES-WM-2014-Console-SR3
-                
+
                 $productDescription = 'Console';
-                
+
                 if ($productVersion.Build -eq 0) {
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Console.msi' -f $packageName;
@@ -432,20 +443,20 @@ function ResolveROWPackagePath {
                 }
 
             } #end switch Console/Database
-    
+
         } #end switch component
 
         Write-Verbose -Message ($LocalizedData.SearchFilePatternMatch -f $regex);
 
-        $packagePath = Get-ChildItem -Path $Path -Recurse | 
+        $packagePath = Get-ChildItem -Path $Path -Recurse |
             Where-Object { $_.Name -imatch $regex } |
                 Sort-Object -Property Name -Descending |
                     Select-Object -ExpandProperty FullName -First 1;
-    
+
     } #end if
 
     if ((-not $IsLiteralPath) -and (-not [System.String]::IsNullOrEmpty($packagePath))) {
-        
+
         Write-Verbose ($LocalizedData.LocatedPackagePath -f $packagePath);
         $isServiceRelease = $packagePath -match '(?<=SR)\d(?=[-\.])';
         if ($isServiceRelease) {

@@ -5,62 +5,77 @@ configuration ROWLabDatabaseAgent {
 #>
     param (
         ## Install full agent including the console or agent only
-        [Parameter(Mandatory)] [ValidateSet('Full','AgentOnly')]
+        [Parameter(Mandatory)]
+        [ValidateSet('Full','AgentOnly')]
         [System.String] $Agent,
 
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to create (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()] $Credential,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## Inherit RES ONE Workspace connection settings
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $InheritSettings = $true,
 
         ## Enable the RES ONE Workspace composer
-        [Parameter())] [ValidateNotNull()]
+        [Parameter())]
+        [ValidateNotNull()]
         [System.Boolean] $EnableWorkspaceComposer = $true,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
 
         ## Do not create a desktop shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoDesktopShortcut,
 
         ## Do not create a Start Menu shortcut
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $NoStartMenuShortcut,
 
         ## RES ONE Workspace Agent Service account (RES ONE Workspace 2015+ only)
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Management.Automation.PSCredential] $ServiceAccountCredential,
 
         ## Add RES ONE Workspace Agent to Workspace containers"
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String[]] $AddToWorkspace,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the $Version and $Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -157,5 +172,5 @@ configuration ROWLabDatabaseAgent {
         Ensure = $Ensure;
         DependsOn = '[ROWDatabaseAgent]ROWLabDatabaseAgent';
     }
-    
+
 } #end configuration ROWLabDatabaseAgent

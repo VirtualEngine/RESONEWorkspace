@@ -3,7 +3,7 @@
         @{
             NodeName = 'localhost';
             PSDSCAllowPlainTextPassword = $true;
-            
+
             ROWDatabaseServer          = 'controller.lab.local';
             ROWDatabaseName            = 'RESONEWorkspace';
             ROWBinariesFolder          = 'C:\SharedData\Software\RES\ONE Worksapce 2015\SR1';
@@ -17,17 +17,19 @@ configuration RESONEWorkspaceLabExample {
     param (
         ## RES ONE Workspace SQL database/user credential
         [Parameter(Mandatory)]
-        [PSCredential] $Credential,
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $Credential,
 
         ## Microsoft SQL Server credentials used to create the RES ONE Workspace database/user
         [Parameter(Mandatory)]
-        [PSCredential] $SQLCredential
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.CredentialAttribute()] $SQLCredential
     )
 
     Import-DscResource -ModuleName RESONEWorkspace;
 
     node 'localhost' {
-    
+
         ROWLab 'ROWLab' {
             DatabaseServer = $node.ROWDatabaseServer;
             DatabaseName = $node.ROWDatabaseName;

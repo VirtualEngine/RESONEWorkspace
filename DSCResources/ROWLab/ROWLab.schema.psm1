@@ -5,38 +5,47 @@ configuration ROWLab {
 #>
     param (
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseServer,
-        
+
         ## RES ONE Workspace database name (equivalient to DBNAME).
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $DatabaseName,
-        
+
         ## Microsoft SQL username/password to create (equivalent to DBUSER/DBPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $Credential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()] $Credential,
+
         ## Microsoft SQL database credentials used to create the database (equivalient to DBCREATEUSER/DBCREATEPASSWORD).
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $SQLCredential,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()] $SQLCredential,
+
         ## File path containing the RES ONE Workspace MSIs.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
 
         ## RES ONE Workspace Relay Server port
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.UInt16] $RelayServerPort = 1943,
 
         ## Use Database protocol encryption
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -45,7 +54,7 @@ configuration ROWLab {
     Import-DscResource -Name ROWDatabase, ROWRelayServer;
 
     if ($Ensure -eq 'Present') {
-        
+
         ROWDatabase 'ROWLabDatabase' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -70,10 +79,10 @@ configuration ROWLab {
             Ensure = $Ensure;
             DependsOn = '[ROWDatabase]ROWLabDatabase';
         }
-        
+
     }
     elseif ($Ensure -eq 'Absent') {
-        
+
         ROWRelayServer 'ROWLabRelayServer' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -85,7 +94,7 @@ configuration ROWLab {
             Port = $RelayServerPort;
             Ensure = $Ensure;
         }
-        
+
         ROWDatabase 'ROWLabDatabase' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -98,9 +107,9 @@ configuration ROWLab {
             Ensure = $Ensure;
             DependsOn = '[ROWRelayServer]ROWLabRelayServer';
         }
-        
+
     }
-    
+
     xFirewall 'ROWLabRelayServerFirewall' {
         Name = 'RESONEWorkspace-TCP-{0}-In' -f $RelayServerPort;
         Group = 'RES ONE Workspace';
@@ -115,7 +124,7 @@ configuration ROWLab {
         Ensure = $Ensure;
         DependsOn = '[ROWRelayServer]ROWLabRelayServer'
     }
-    
+
     xFirewall 'ROWLabRelayServerDiscoveryFirewall' {
         Name = 'RESONEWorkspace-UDP-1942-In';
         Group = 'RES ONE Workspace';

@@ -5,54 +5,67 @@ configuration ROWLabRelayServerAgent {
 #>
     param (
         ## Install full agent including the console or agent only
-        [Parameter(Mandatory)] [ValidateSet('Full','AgentOnly')]
+        [Parameter(Mandatory)]
+        [ValidateSet('Full','AgentOnly')]
         [System.String] $Agent,
 
          ## RES ONE Workspace Relay Server environment GUID.
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Guid] $EnvironmentGuid,
-        
+
         ## RES ONE Workspace Relay Server environment password.
         [Parameter(Mandatory)]
-        [System.Management.Automation.PSCredential] $EnvironmentPassword,
-        
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()] $EnvironmentPassword,
+
         ## File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI.
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## RES ONE Workspace Relay Server environment password is hashed.
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $EnvironmentPasswordIsHashed,
 
         ## Inherit RES ONE Workspace connection settings
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $InheritSettings = $true,
 
         ## Enable the RES ONE Workspace composer
-        [Parameter(Mandatory)] [ValidateNotNull()]
+        [Parameter(Mandatory)]
+        [ValidateNotNull()]
         [System.Boolean] $EnableWorkspaceComposer = $true,
 
         ## Enable RES ONE Workspace Relay Server multicast discovery.
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $RelayServerDiscovery,
 
         ## Use specified RES ONE Workspace Relay Servers (including port number).
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String[]] $RelayServerList,
 
         ## Resolve RES ONE Workspace Relay Server via DNS.
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $RelayServerDnsName,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
-        
+
         ## The specified Path is a literal file reference (bypasses the $Version and $Architecture checks).
-        [Parameter()] [ValidateNotNull()]
+        [Parameter()]
+        [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
-        
-        [Parameter()] [ValidateSet('Present','Absent')]
+
+        [Parameter()]
+        [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
@@ -61,7 +74,7 @@ configuration ROWLabRelayServerAgent {
 
     if (($PSBoundParameters.ContainsKey('RelayServerList')) -and
         ($PSBoundParameters.ContainsKey('RelayServerDnsName'))) {
-        
+
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
             Agent = $Agent;
             EnvironmentGuid = $EnvironmentGuid;
@@ -79,7 +92,7 @@ configuration ROWLabRelayServerAgent {
         }
     }
     elseif ($PSBoundParameters.ContainsKey('RelayServerList')) {
-    
+
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
             Agent = $Agent;
             EnvironmentGuid = $EnvironmentGuid;
@@ -96,7 +109,7 @@ configuration ROWLabRelayServerAgent {
         }
     }
     elseif ($PSBoundParameters.ContainsKey('RelayServerDnsName')) {
-        
+
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
             Agent = $Agent;
             EnvironmentGuid = $EnvironmentGuid;
@@ -113,7 +126,7 @@ configuration ROWLabRelayServerAgent {
         }
     }
     else {
-        
+
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
             Agent = $Agent;
             EnvironmentGuid = $EnvironmentGuid;
@@ -141,5 +154,5 @@ configuration ROWLabRelayServerAgent {
         Ensure = $Ensure;
         DependsOn = '[ROWRelayServerAgent]ROWLabRelayServerAgent';
     }
-    
+
 } #end configuration ROWLabRelayServerAgent
