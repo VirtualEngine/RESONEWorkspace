@@ -339,6 +339,10 @@ function ResolveROWPackagePath {
                         $packageName = 'RES-ONE-Workspace-2015';
                         $productName = 'RES ONE Workspace 2015';
                     }
+                    12 {
+                        $packageName = 'RES-ONE-Workspace-2016';
+                        $productName = 'RES ONE Workspace 2016';
+                    }
                     Default {
                         throw ($LocalizedData.UnsupportedVersionError -f $Version);
                     }
