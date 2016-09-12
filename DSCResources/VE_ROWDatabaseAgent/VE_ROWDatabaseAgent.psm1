@@ -357,6 +357,6 @@ function Set-TargetResource {
 ## Import the ROWCommon library functions
 $moduleRoot = Split-Path -Path $MyInvocation.MyCommand.Path -Parent;
 $moduleParent = Split-Path -Path $moduleRoot -Parent;
-Import-Module (Join-Path -Path $moduleParent -ChildPath 'VE_ROWCommon') -Force;
+Import-Module (Join-Path -Path $moduleParent -ChildPath 'ROWCommon') -Force;
 
 Export-ModuleMember -Function *-TargetResource;

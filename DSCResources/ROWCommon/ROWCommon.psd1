@@ -1,5 +1,5 @@
 @{
-    RootModule = 'VE_ROWCommon.psm1'
+    RootModule = 'ROWCommon.psm1'
     ModuleVersion = '1.0'
     GUID = '2989eb60-a53a-4eb3-9b4c-2505ec72d7b7'
     Author = 'Iain Brighton'
