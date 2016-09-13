@@ -1,6 +1,8 @@
-data LocalizedData {
+data localizedData {
     # Localized messages; culture="en-US"
     ConvertFrom-StringData @'
+        CannotFindPathError            = Cannot find path '{0}' because it does not exist.
+
         ResourceCorrectPropertyState   = Resource property '{0}' is in the desired state.
         ResourceIncorrectPropertyState = Resource property '{0}' is NOT in the desired state. Expected '{1}', actual '{2}'.
         ResourceInDesiredState         = Resource '{0}' is in the desired state.
@@ -57,7 +59,8 @@ function ResolveBuildingBlock {
 
             if (-not (Test-Path -Path $filePath)) {
 
-                $ex = New-Object System.Management.Automation.ItemNotFoundException "Cannot find path '$filePath' because it does not exist.";
+                $exMessage = $localizedData.CannotFindPathError -f $filePath;
+                $ex = New-Object System.Management.Automation.ItemNotFoundException $exMessage;
                 $category = [System.Management.Automation.ErrorCategory]::ObjectNotFound;
                 $errRecord = New-Object System.Management.Automation.ErrorRecord $ex, 'PathNotFound', $category, $filePath;
                 $psCmdlet.WriteError($errRecord);
@@ -66,7 +69,7 @@ function ResolveBuildingBlock {
 
             # Resolve any wildcards that might be in the path
             $provider = $null;
-            $paths += $psCmdlet.SessionState.Path.GetResolvedProviderPathFromPSPath($Path, [ref] $provider);
+            $paths += $psCmdlet.SessionState.Path.GetResolvedProviderPathFromPSPath($filePath, [ref] $provider);
 
         }
 
@@ -94,7 +97,15 @@ function Get-TargetResource {
         ## RES ONE Workspace authentication credential.
         [Parameter()]
         [System.Management.Automation.PSCredential]
-        [System.Management.Automation.Credential()] $Credential
+        [System.Management.Automation.Credential()] $Credential,
+
+        ## Overwrite existing objects in the RES ONE Workspace database.
+        [Parameter()]
+        [System.Boolean] $Overwrite,
+
+        ## Remove objects in the building block from the RES ONE Workspace database.
+        [Parameter()]
+        [System.Boolean] $Delete
     )
     process {
 
@@ -117,7 +128,15 @@ function Test-TargetResource {
         ## RES ONE Workspace authentication credential.
         [Parameter()]
         [System.Management.Automation.PSCredential]
-        [System.Management.Automation.Credential()] $Credential
+        [System.Management.Automation.Credential()] $Credential,
+
+        ## Overwrite existing objects in the RES ONE Workspace database.
+        [Parameter()]
+        [System.Boolean] $Overwrite,
+
+        ## Remove objects in the building block from the RES ONE Workspace database.
+        [Parameter()]
+        [System.Boolean] $Delete
     )
     process {
 
@@ -165,7 +184,15 @@ function Set-TargetResource {
         ## RES ONE Workspace authentication credential.
         [Parameter()]
         [System.Management.Automation.PSCredential]
-        [System.Management.Automation.Credential()] $Credential
+        [System.Management.Automation.Credential()] $Credential,
+
+        ## Overwrite existing objects in the RES ONE Workspace database.
+        [Parameter()]
+        [System.Boolean] $Overwrite,
+
+        ## Remove objects in the building block from the RES ONE Workspace database.
+        [Parameter()]
+        [System.Boolean] $Delete
     )
     process {
 
@@ -182,11 +209,10 @@ function Set-TargetResource {
                     ## Import the building block
                     $PSBoundParameters['Path'] = $bb.Path;
                     Write-Verbose -Message ($localizedData.ImportingBuildingBlock -f $bb.Path);
-                    ImportROABuildingBlock @PSBoundParameters;
+                    Import-ROWBuildingBlockFile @PSBoundParameters;
 
                     ## Update the registry/hash value
                     SetBuildingBlockFileHash -RegistryName $bb.RegistryName -FileHash $bb.FileHash;
-
                 }
                 catch {
 
@@ -203,7 +229,7 @@ function Set-TargetResource {
 ## Import the ROACommon library functions
 $moduleRoot = Split-Path -Path $MyInvocation.MyCommand.Path -Parent;
 $moduleParent = Split-Path -Path $moduleRoot -Parent;
-Import-Module (Join-Path -Path $moduleParent -ChildPath 'ROACommon') -Force;
+Import-Module (Join-Path -Path $moduleParent -ChildPath 'ROWCommon') -Force;
 
 $script:DefaultRegistryPath = 'HKLM:\SOFTWARE\Virtual Engine\RESONEWorkspaceDsc';
 
