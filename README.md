@@ -1,12 +1,11 @@
 RES ONE Workspace DSC Resources
 ===============================
 ## Included Resources
+* **ROWBuildingBlock**: Imports a RES ONE Automation building block
 * **ROWConsole**: Installs the RES ONE Workspace console
 * **ROWDatabase**: Installs the RES ONE Workspace and creates the RES ONE Workspace database
 * **ROWDatabaseAgent**: Installs the RES ONE Workspace agent component connected directly to the RES ONE Workspace database
 * **ROWLab (Compsite)**: Deploys a single-node RES ONE Workspace lab server environment and configures required firewall rules
-* **ROWLabBuildingBlock (Compsite)**: Adds/removes a RES ONE Workspace building block
- * **NOTE: Requires Windows Management Framework 5.**
 * **ROWLabCitrixProcessIntercept (Compsite)**: Manages RES ONE Workspace Citrix Process Intercept
 * **ROWLabDatabaseAgent (Compsite)**: Deploys a RES ONE Workspace lab database agent and configures required firewall rules
 * **ROWLabRelayServerAgent (Compsite)**: Deploys a RES ONE Workspace lab Relay Server agent and configures required firewall rules
@@ -16,6 +15,20 @@ RES ONE Workspace DSC Resources
 ## Required Resources
 * **xNetworking**: ROWLab requires https://github.com/PowerShell/xNetworking to create server firewall rules
 * **LegacyNetworking**: ROWLabDatabaseAgent and ROWLabRelayServerAgent require https://github.com/VirtualEngine/LegacyNetworking to create client firewall rules
+
+ROWBuildingBlock
+===================
+Imports a RES ONE Workspace building block.
+### Syntax
+```
+ROWBuildingBlock [String] #ResourceName
+{
+    Path = [string]
+    [ Overwrite = [bool] ]
+    [ Delete = [bool] ]
+    [ Credential = [PSCredential] ]
+}
+```
 
 ROWConsole
 ==========
@@ -100,7 +113,7 @@ ROWLab [String] #ResourceName
 
 ROWLabBuildingBlock
 ===================
-Adds/removes a RES ONE Workspace building block. **NOTE: Requires Windows Management Framework 5.** 
+Adds/removes a RES ONE Workspace building block. **NOTE: Requires Windows Management Framework 5.**
 ### Syntax
 ```
 ROWLabBuildingBlock [String] #ResourceName
