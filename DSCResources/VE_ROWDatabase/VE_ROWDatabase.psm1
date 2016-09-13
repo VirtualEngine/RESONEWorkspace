@@ -58,13 +58,13 @@ function Get-TargetResource {
         [System.String] $Ensure = 'Present'
     )
 
-    $setupPath = ResolveROWPackagePath -Path $Path -Component 'Console' -Version $Version -IsLiteralPath:$IsLiteralPath -Verbose:$Verbose;
-    [System.String] $msiProductName = GetWindowsInstallerPackageProperty -Path $setupPath -Property ProductName;
+    $setupPath = Resolve-ROWPackagePath -Path $Path -Component 'Console' -Version $Version -IsLiteralPath:$IsLiteralPath -Verbose:$Verbose;
+    [System.String] $msiProductName = Get-WindowsInstallerPackageProperty -Path $setupPath -Property ProductName;
     $productName = $msiProductName.Trim();
     $targetResource = @{
         Path = $setupPath;
         ProductName = $productName;
-        Ensure = if (GetProductEntry -Name $productName) { 'Present' } else { 'Absent' };
+        Ensure = if (Get-InstalledProductEntry -Name $productName) { 'Present' } else { 'Absent' };
     }
     return $targetResource;
 
@@ -181,7 +181,7 @@ function Set-TargetResource {
         [System.String] $Ensure = 'Present'
     )
 
-    $setupPath = ResolveROWPackagePath -Path $Path -Component 'Console' -Version $Version -IsLiteralPath:$IsLiteralPath -Verbose:$Verbose;
+    $setupPath = Resolve-ROWPackagePath -Path $Path -Component 'Console' -Version $Version -IsLiteralPath:$IsLiteralPath -Verbose:$Verbose;
     if ($Ensure -eq 'Present') {
 
         $arguments = @(
@@ -205,7 +205,7 @@ function Set-TargetResource {
     }
     elseif ($Ensure -eq 'Absent') {
 
-        [System.String] $msiProductCode = GetWindowsInstallerPackageProperty -Path $setupPath -Property ProductCode;
+        [System.String] $msiProductCode = Get-WindowsInstallerPackageProperty -Path $setupPath -Property ProductCode;
         $arguments = @(
             ('/X{0}' -f $msiProductCode)
         )
@@ -215,7 +215,7 @@ function Set-TargetResource {
     ## Start install/uninstall
     $arguments += '/norestart';
     $arguments += '/qn';
-    StartWaitProcess -FilePath "$env:WINDIR\System32\msiexec.exe" -ArgumentList $arguments -Verbose:$Verbose;
+    Start-WaitProcess -FilePath "$env:WINDIR\System32\msiexec.exe" -ArgumentList $arguments -Verbose:$Verbose;
 
 } #end function Set-TargetResource
 
