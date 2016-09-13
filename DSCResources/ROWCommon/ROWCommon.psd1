@@ -5,7 +5,7 @@
     Author = 'Iain Brighton'
     CompanyName = 'Virtual Engine'
     Copyright = '(c) 2016 Virtual Engine Limited. All rights reserved.'
-    Description = 'RES ONE Workspace common DSC resources library'
+    Description = 'RES ONE Workspace common function library'
     PowerShellVersion = '4.0'
     FunctionsToExport = '*'
     CmdletsToExport = '*'
