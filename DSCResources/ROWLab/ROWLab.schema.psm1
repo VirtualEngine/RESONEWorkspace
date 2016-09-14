@@ -65,7 +65,7 @@ configuration ROWLab {
         [System.String] $Ensure = 'Present'
     )
 
-    Write-Verbose 'Starting "ROWLab".';
+    Write-Host ' Starting "ROWLab".' -ForegroundColor Gray;
 
     Import-DscResource -ModuleName xPSDesiredStateConfiguration;
     Import-DscResource -ModuleName xNetworking;
@@ -75,7 +75,7 @@ configuration ROWLab {
 
         if ($PSBoundParameters.ContainsKey('LicensePath')) {
 
-            Write-Verbose 'Processing "ROWLab\ROELabDatabase" with "LicensePath".';
+            Write-Host ' Processing "ROWLab\ROELabDatabase" with "LicensePath".' -ForegroundColor Gray;
             ROWDatabase 'ROWLabDatabase' {
                 DatabaseServer = $DatabaseServer;
                 DatabaseName = $DatabaseName;
@@ -91,7 +91,7 @@ configuration ROWLab {
         }
         else {
 
-            Write-Verbose 'Processing "ROWLab\ROWLabDatabase".';
+            Write-Host ' Processing "ROWLab\ROWLabDatabase".' -ForegroundColor Gray;
             ROWDatabase 'ROWLabDatabase' {
                 DatabaseServer = $DatabaseServer;
                 DatabaseName = $DatabaseName;
@@ -105,7 +105,7 @@ configuration ROWLab {
             }
         }
 
-        Write-Verbose 'Processing "ROWLab\ROWLabRelayServer".';
+        Write-Host ' Processing "ROWLab\ROWLabRelayServer".' -ForegroundColor Gray;
         ROWRelayServer 'ROWLabRelayServer' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -121,7 +121,7 @@ configuration ROWLab {
 
         if ($PSBoundParameters.ContainsKey('BuildingBlockPath')) {
 
-            Write-Verbose 'Processing "ROWLab\ROWLabBuildingBlock".';
+            Write-Host ' Processing "ROWLab\ROWLabBuildingBlock".' -ForegroundColor Gray;
             ROWBuildingBlock 'ROWLabBuildingBlock' {
                 Path = $BuildingBlockPath;
                 Credential = $BuildingBlockCredential;
@@ -132,7 +132,7 @@ configuration ROWLab {
     }
     elseif ($Ensure -eq 'Absent') {
 
-        Write-Verbose 'Processing "ROWLab\ROWLabRelayServer".';
+        Write-Host ' Processing "ROWLab\ROWLabRelayServer".' -ForegroundColor Gray;
         ROWRelayServer 'ROWLabRelayServer' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -145,7 +145,7 @@ configuration ROWLab {
             Ensure = $Ensure;
         }
 
-        Write-Verbose 'Processing "ROWLab\ROWLabDatabase".';
+        Write-Host ' Processing "ROWLab\ROWLabDatabase".' -ForegroundColor Gray;
         ROWDatabase 'ROWLabDatabase' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -161,7 +161,7 @@ configuration ROWLab {
 
     }
 
-    Write-Verbose 'Processing "ROWLab\ROWLabRelayServerFirewall".';
+    Write-Host ' Processing "ROWLab\ROWLabRelayServerFirewall".' -ForegroundColor Gray;
     xFirewall 'ROWLabRelayServerFirewall' {
         Name = 'RESONEWorkspace-TCP-{0}-In' -f $RelayServerPort;
         Group = 'RES ONE Workspace';
@@ -177,7 +177,7 @@ configuration ROWLab {
         DependsOn = '[ROWRelayServer]ROWLabRelayServer'
     }
 
-    Write-Verbose 'Processing "ROWLab\ROWLabRelayServerDiscoveryFirewall".';
+    Write-Host ' Processing "ROWLab\ROWLabRelayServerDiscoveryFirewall".' -ForegroundColor Gray;
     xFirewall 'ROWLabRelayServerDiscoveryFirewall' {
         Name = 'RESONEWorkspace-UDP-1942-In';
         Group = 'RES ONE Workspace';
@@ -193,6 +193,6 @@ configuration ROWLab {
         DependsOn = '[ROWRelayServer]ROWLabRelayServer';
     }
 
-    Write-Verbose 'Ending "ROWLab".';
+    Write-Host ' Ending "ROWLab".' -ForegroundColor Gray;
 
 } #end configuration ROWLab
