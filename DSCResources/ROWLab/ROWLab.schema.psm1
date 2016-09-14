@@ -65,6 +65,8 @@ configuration ROWLab {
         [System.String] $Ensure = 'Present'
     )
 
+    Write-Verbose 'Starting "ROWLab".';
+
     Import-DscResource -ModuleName xPSDesiredStateConfiguration;
     Import-DscResource -ModuleName xNetworking;
     Import-DscResource -Name ROWDatabase, ROWRelayServer;
@@ -73,6 +75,7 @@ configuration ROWLab {
 
         if ($PSBoundParameters.ContainsKey('LicensePath')) {
 
+            Write-Verbose 'Processing "ROWLab\ROELabDatabase" with "LicensePath".';
             ROWDatabase 'ROWLabDatabase' {
                 DatabaseServer = $DatabaseServer;
                 DatabaseName = $DatabaseName;
@@ -88,6 +91,7 @@ configuration ROWLab {
         }
         else {
 
+            Write-Verbose 'Processing "ROWLab\ROWLabDatabase".';
             ROWDatabase 'ROWLabDatabase' {
                 DatabaseServer = $DatabaseServer;
                 DatabaseName = $DatabaseName;
@@ -101,6 +105,7 @@ configuration ROWLab {
             }
         }
 
+        Write-Verbose 'Processing "ROWLab\ROWLabRelayServer".';
         ROWRelayServer 'ROWLabRelayServer' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -116,6 +121,7 @@ configuration ROWLab {
 
         if ($PSBoundParameters.ContainsKey('BuildingBlockPath')) {
 
+            Write-Verbose 'Processing "ROWLab\ROWLabBuildingBlock".';
             ROWBuildingBlock 'ROWLabBuildingBlock' {
                 Path = $BuildingBlockPath;
                 Credential = $BuildingBlockCredential;
@@ -126,6 +132,7 @@ configuration ROWLab {
     }
     elseif ($Ensure -eq 'Absent') {
 
+        Write-Verbose 'Processing "ROWLab\ROWLabRelayServer".';
         ROWRelayServer 'ROWLabRelayServer' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -138,6 +145,7 @@ configuration ROWLab {
             Ensure = $Ensure;
         }
 
+        Write-Verbose 'Processing "ROWLab\ROWLabDatabase".';
         ROWDatabase 'ROWLabDatabase' {
             DatabaseServer = $DatabaseServer;
             DatabaseName = $DatabaseName;
@@ -153,6 +161,7 @@ configuration ROWLab {
 
     }
 
+    Write-Verbose 'Processing "ROWLab\ROWLabRelayServerFirewall".';
     xFirewall 'ROWLabRelayServerFirewall' {
         Name = 'RESONEWorkspace-TCP-{0}-In' -f $RelayServerPort;
         Group = 'RES ONE Workspace';
@@ -168,6 +177,7 @@ configuration ROWLab {
         DependsOn = '[ROWRelayServer]ROWLabRelayServer'
     }
 
+    Write-Verbose 'Processing "ROWLab\ROWLabRelayServerDiscoveryFirewall".';
     xFirewall 'ROWLabRelayServerDiscoveryFirewall' {
         Name = 'RESONEWorkspace-UDP-1942-In';
         Group = 'RES ONE Workspace';
@@ -182,5 +192,7 @@ configuration ROWLab {
         Ensure = $Ensure;
         DependsOn = '[ROWRelayServer]ROWLabRelayServer';
     }
+
+    Write-Verbose 'Ending "ROWLab".';
 
 } #end configuration ROWLab
