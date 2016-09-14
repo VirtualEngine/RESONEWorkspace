@@ -39,6 +39,10 @@ function Get-TargetResource {
         [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
+        ## File path to a RES ONE Service Store license file to import.
+        [Parameter()] [ValidateNotNullOrEmpty()]
+        [System.String] $LicensePath,
+
         ## Use Database protocol encryption
         [Parameter()]
         [ValidateNotNull()]
@@ -99,6 +103,10 @@ function Test-TargetResource {
         [Parameter(Mandatory)]
         [ValidateNotNullOrEmpty()]
         [System.String] $Path,
+
+        ## File path to a RES ONE Service Store license file to import.
+        [Parameter()] [ValidateNotNullOrEmpty()]
+        [System.String] $LicensePath,
 
         ## Use Database protocol encryption
         [Parameter()]
@@ -162,6 +170,10 @@ function Set-TargetResource {
         [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
+        ## File path to a RES ONE Service Store license file to import.
+        [Parameter()] [ValidateNotNullOrEmpty()]
+        [System.String] $LicensePath,
+
         ## Use Database protocol encryption
         [Parameter()]
         [ValidateNotNull()]
@@ -200,6 +212,10 @@ function Set-TargetResource {
             if ($UseDatabaseProtocolEncryption -eq $true) {
                 $arguments += 'DBPROTOCOLENCRYPTION="yes"';
             }
+        }
+
+        if ($PSBoundParameters.ContainsKey('LicensePath')) {
+            $arguments += 'DBIMPORTLICENSE="{0}"' -f $LicensePath;
         }
 
     }
