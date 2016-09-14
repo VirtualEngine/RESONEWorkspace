@@ -44,6 +44,17 @@ configuration ROWLab {
         [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
 
+        ## File path to RES ONE Workspace building blocks to import.
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [System.String] $BuildingBlockPath,
+
+        ## Credential used to import the RES ONE Workspace building blocks.
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Management.Automation.PSCredential]
+        [System.Management.Automation.Credential()] $BuildingBlockCredential,
+
         [Parameter()]
         [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
@@ -78,6 +89,15 @@ configuration ROWLab {
             Port = $RelayServerPort;
             Ensure = $Ensure;
             DependsOn = '[ROWDatabase]ROWLabDatabase';
+        }
+
+        if ($PSBoundParameters.ContainsKey('BuildingBlockPath')) {
+
+            ROWBuildingBlock 'ROWLabBuildingBlock' {
+                Path = $BuildingBlockPath;
+                Credential = $BuildingBlockCredential;
+                DependsOn = '[ROWDatabase]ROWLabDatabase';
+            }
         }
 
     }

@@ -202,6 +202,7 @@ function Set-TargetResource {
 
             $registryName = $bb.RegistryName;
             $registryHash = (Get-ItemProperty -Path $script:DefaultRegistryPath -Name $bb.RegistryName -ErrorAction SilentlyContinue).$registryName;
+
             if ($bb.FileHash -ne $registryHash) {
 
                 try {

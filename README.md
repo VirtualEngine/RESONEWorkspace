@@ -61,6 +61,7 @@ ROWDatabase [String] #ResourceName
     SQLCredential = [PSCredential]
     Path = [String]
     [ UseDatabaseProtocolEncryption = [Boolean] ]
+    [ LicensePath = [String] ]
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
     [ Ensure = [String] { Absent | Present } ]
@@ -107,20 +108,8 @@ ROWLab [String] #ResourceName
     Version = [String]
     [ RelayServerPort = [Int32] ]
     [ UseDatabaseProtocolEncryption = [Boolean] ]
-    [ Ensure = [String] { Absent | Present } ]
-}
-```
-
-ROWLabBuildingBlock
-===================
-Adds/removes a RES ONE Workspace building block. **NOTE: Requires Windows Management Framework 5.**
-### Syntax
-```
-ROWLabBuildingBlock [String] #ResourceName
-{
-    Path = [String]
-    PsDscRunAsCredential = [PSCredential]
-    [ Architecture = [String] { x64 | x86 } ]
+    [ BuildingBlockPath = [String] ]
+    [ BuildingBlockCredential = [PSCredential] ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```
@@ -134,21 +123,6 @@ ROWCitrixProcessIntercept [String] #ResourceName
 {
     Ensure = [String] { Absent | Present }
     [ Architecture = [String] { x64 | x86 } ]
-}
-```
-
-ROWLabCustomResource
-====================
-Adds/removes a RES ONE Workspace custom resource. **NOTE: Requires Windows Management Framework 5.**
-### Syntax
-```
-ROWLabCustomResource [String] #ResourceName
-{
-    Path = [String]
-    PsDscRunAsCredential = [PSCredential]
-    [ ResourcePath = [String] ]
-    [ Architecture = [String] { x64 | x86 } ]
-    [ Ensure = [String] { Absent | Present } ]
 }
 ```
 
@@ -247,5 +221,4 @@ ROWRelayServerAgent [String] #ResourceName
     [ IsLiteralPath = [Boolean] ]
     [ Ensure = [String] { Absent | Present } ]
 }
-
 ```
