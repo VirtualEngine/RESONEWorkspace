@@ -44,6 +44,11 @@ configuration ROWLab {
         [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
 
+        ## File path to RES ONE Workspace license file.
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
+        [System.String] $LicensePath,
+
         ## File path to RES ONE Workspace building blocks to import.
         [Parameter()]
         [ValidateNotNullOrEmpty()]
@@ -66,16 +71,34 @@ configuration ROWLab {
 
     if ($Ensure -eq 'Present') {
 
-        ROWDatabase 'ROWLabDatabase' {
-            DatabaseServer = $DatabaseServer;
-            DatabaseName = $DatabaseName;
-            Credential = $Credential;
-            SQLCredential = $SQLCredential;
-            Path = $Path;
-            IsLiteralPath = $false;
-            UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-            Version = $Version;
-            Ensure = $Ensure;
+        if ($PSBoundParameters.ContainsKey('LicensePath')) {
+
+            ROWDatabase 'ROWLabDatabase' {
+                DatabaseServer = $DatabaseServer;
+                DatabaseName = $DatabaseName;
+                Credential = $Credential;
+                SQLCredential = $SQLCredential;
+                Path = $Path;
+                IsLiteralPath = $false;
+                UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
+                Version = $Version;
+                LicensePath = $LicensePath;
+                Ensure = $Ensure;
+            }
+        }
+        else {
+
+            ROWDatabase 'ROWLabDatabase' {
+                DatabaseServer = $DatabaseServer;
+                DatabaseName = $DatabaseName;
+                Credential = $Credential;
+                SQLCredential = $SQLCredential;
+                Path = $Path;
+                IsLiteralPath = $false;
+                UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
+                Version = $Version;
+                Ensure = $Ensure;
+            }
         }
 
         ROWRelayServer 'ROWLabRelayServer' {
