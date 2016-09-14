@@ -35,7 +35,7 @@ configuration ROWLabDatabaseAgent {
         [System.Boolean] $InheritSettings = $true,
 
         ## Enable the RES ONE Workspace composer
-        [Parameter())]
+        [Parameter()]
         [ValidateNotNull()]
         [System.Boolean] $EnableWorkspaceComposer = $true,
 
