@@ -69,7 +69,7 @@ configuration ROWLab {
 
     Import-DscResource -ModuleName xPSDesiredStateConfiguration;
     Import-DscResource -ModuleName xNetworking;
-    Import-DscResource -Name ROWDatabase, ROWRelayServer;
+    Import-DscResource -Name ROWDatabase, ROWRelayServer, ROWBuildingBlock;
 
     if ($Ensure -eq 'Present') {
 
