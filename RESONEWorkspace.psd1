@@ -8,7 +8,10 @@
     Description          = 'RES ONE Workspace PowerShell cmdlets and configuration DSC resources. These resources are provided AS IS, and are not supported through any means.';
     PowerShellVersion    = '4.0';
     FunctionsToExport    = @('Import-ROWBuildingBlock','Export-ROWBuildingBlock');
-    DscResourcesToExport = @('ROWBuildingBlock', 'ROWConsole', 'ROWDatabase', 'ROWDatabaseAgent','ROWRelayServer','ROWRelayServerAgent');
+
+    <# Removed for WMF 4 compaitibilty
+    DscResourcesToExport = @('ROWBuildingBlock', 'ROWConsole', 'ROWDatabase', 'ROWDatabaseAgent','ROWRelayServer',
+                                'ROWRelayServerAgent'); #>
 
     PrivateData = @{
         PSData = @{
