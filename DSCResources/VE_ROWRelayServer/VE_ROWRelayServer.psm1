@@ -66,6 +66,7 @@ function Get-TargetResource {
     $setupPath = Resolve-ROWPackagePath -Path $Path -Component 'RelayServer' -Version $Version -IsLiteralPath:$IsLiteralPath -Verbose:$Verbose;
     [System.String] $msiProductName = Get-WindowsInstallerPackageProperty -Path $setupPath -Property ProductName;
     $productName = $msiProductName.Trim();
+
     $targetResource = @{
         Path = $setupPath;
         ProductName = $productName;
