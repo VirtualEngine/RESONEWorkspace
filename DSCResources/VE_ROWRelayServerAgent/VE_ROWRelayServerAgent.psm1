@@ -87,6 +87,11 @@ function Get-TargetResource {
         [Parameter()]
         [System.Boolean] $IsLiteralPath,
 
+        ## Reboot the machine after RES ONE Workspace agent installation
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Boolean] $ForceRestart,
+
         [Parameter()]
         [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
@@ -186,6 +191,11 @@ function Test-TargetResource {
         [Parameter()]
         [System.Boolean] $IsLiteralPath,
 
+        ## Reboot the machine after RES ONE Workspace agent installation
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Boolean] $ForceRestart,
+
         [Parameter()]
         [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
@@ -282,6 +292,11 @@ function Set-TargetResource {
         [Parameter()]
         [System.Boolean] $IsLiteralPath,
 
+        ## Reboot the machine after RES ONE Workspace agent installation
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Boolean] $ForceRestart,
+
         [Parameter()]
         [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
@@ -362,6 +377,11 @@ function Set-TargetResource {
     $arguments += '/norestart';
     $arguments += '/qn';
     Start-WaitProcess -FilePath "$env:WINDIR\System32\msiexec.exe" -ArgumentList $arguments -Verbose:$Verbose;
+
+    if ($ForceRestart) {
+
+        $global:DSCMachineStatus = 1;
+    }
 
 } #end function Set-TargetResource
 

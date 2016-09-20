@@ -15,5 +15,6 @@ class VE_ROWDatabaseAgent : OMI_BaseResource
     [Write, Description("Add RES ONE Workspace Agent to Workspace containers")] String AddToWorkspace[];
     [Write, Description("RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.1")] String Version;
     [Write, Description("The specified Path is a literal file reference (bypasses the Version check)")] Boolean IsLiteralPath;
+    [Write, Description("Reboot the machine after RES ONE Workspace agent installation")] Boolean ForceRestart;
     [Write, Description("Should this resource be present or absent"), ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
 };

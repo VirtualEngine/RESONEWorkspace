@@ -64,6 +64,11 @@ configuration ROWLabRelayServerAgent {
         [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
 
+        ## Reboot the machine after RES ONE Workspace agent installation
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Boolean] $ForceRestart,
+
         [Parameter()]
         [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
@@ -88,6 +93,7 @@ configuration ROWLabRelayServerAgent {
             RelayServerDnsName = $RelayServerDnsName;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }
@@ -105,6 +111,7 @@ configuration ROWLabRelayServerAgent {
             RelayServerList = $RelayServerList;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }
@@ -122,6 +129,7 @@ configuration ROWLabRelayServerAgent {
             RelayServerDnsName = $RelayServerDnsName;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }
@@ -138,6 +146,7 @@ configuration ROWLabRelayServerAgent {
             RelayServerDiscovery = $RelayServerDiscovery;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }

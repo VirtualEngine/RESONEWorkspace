@@ -74,6 +74,11 @@ configuration ROWLabDatabaseAgent {
         [ValidateNotNull()]
         [System.Boolean] $IsLiteralPath,
 
+        ## Reboot the machine after RES ONE Workspace agent installation
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Boolean] $ForceRestart,
+
         [Parameter()]
         [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
@@ -100,6 +105,7 @@ configuration ROWLabDatabaseAgent {
             AddToWorkspace= $AddToWorkspace;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }
@@ -119,6 +125,7 @@ configuration ROWLabDatabaseAgent {
             ServiceAccountCredential = $ServiceAccountCredential;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }
@@ -138,6 +145,7 @@ configuration ROWLabDatabaseAgent {
             AddToWorkspace= $AddToWorkspace;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }
@@ -156,6 +164,7 @@ configuration ROWLabDatabaseAgent {
             NoStartMenuShortcut = $NoStartMenuShortcut;
             Version = $Version;
             IsLiteralPath = $IsLiteralPath;
+            ForceRestart = $ForceRestart;
             Ensure = $Ensure;
         }
     }

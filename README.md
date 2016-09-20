@@ -89,6 +89,7 @@ ROWDatabaseAgent [String] #ResourceName
     [ AddToWorkspace = [String[]] ]
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
+    [ ForceRestart = [Boolean] ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```
@@ -147,6 +148,7 @@ ROWLabDatabaseAgent [String] #ResourceName
     [ AddToWorkspace = [String[]] ]
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
+    [ ForceRestart = [Boolean] ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```
@@ -173,6 +175,7 @@ ROWLabRelayServerAgent [String] #ResourceName
     [ AddToWorkspace = [String[]] ]
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
+    [ ForceRestart = [Boolean] ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```
@@ -219,6 +222,7 @@ ROWRelayServerAgent [String] #ResourceName
     [ AddToWorkspace = [String[]] ]
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
+    [ ForceRestart = [Boolean] ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```
