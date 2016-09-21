@@ -23,9 +23,10 @@ Imports a RES ONE Workspace building block.
 ```
 ROWBuildingBlock [String] #ResourceName
 {
-    Path = [string]
-    [ Overwrite = [bool] ]
-    [ Delete = [bool] ]
+    Path = [String]
+    [ Overwrite = [Boolean] ]
+    [ Delete = [Boolean] ]
+    [ DeleteFromDisk = [Boolean] ]
     [ Credential = [PSCredential] ]
 }
 ```
@@ -111,6 +112,7 @@ ROWLab [String] #ResourceName
     [ UseDatabaseProtocolEncryption = [Boolean] ]
     [ BuildingBlockPath = [String] ]
     [ BuildingBlockCredential = [PSCredential] ]
+    [ DeleteBuildingBlock = [Boolean] ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```

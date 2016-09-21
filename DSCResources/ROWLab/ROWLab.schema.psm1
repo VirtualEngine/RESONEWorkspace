@@ -54,6 +54,10 @@ configuration ROWLab {
         [ValidateNotNullOrEmpty()]
         [System.String] $BuildingBlockPath,
 
+        ## Delete the building block from disk after import.
+        [Parameter()]
+        [System.Boolean] $DeleteBuildingBlock,
+
         ## Credential used to import the RES ONE Workspace building blocks.
         [Parameter()]
         [ValidateNotNull()]
@@ -77,55 +81,56 @@ configuration ROWLab {
 
             Write-Host ' Processing "ROWLab\ROELabDatabase" with "LicensePath".' -ForegroundColor Gray;
             ROWDatabase 'ROWLabDatabase' {
-                DatabaseServer = $DatabaseServer;
-                DatabaseName = $DatabaseName;
-                Credential = $Credential;
-                SQLCredential = $SQLCredential;
-                Path = $Path;
-                IsLiteralPath = $false;
+                DatabaseServer                = $DatabaseServer;
+                DatabaseName                  = $DatabaseName;
+                Credential                    = $Credential;
+                SQLCredential                 = $SQLCredential;
+                Path                          = $Path;
+                IsLiteralPath                 = $false;
                 UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-                Version = $Version;
-                LicensePath = $LicensePath;
-                Ensure = $Ensure;
+                Version                       = $Version;
+                LicensePath                   = $LicensePath;
+                Ensure                        = $Ensure;
             }
         }
         else {
 
             Write-Host ' Processing "ROWLab\ROWLabDatabase".' -ForegroundColor Gray;
             ROWDatabase 'ROWLabDatabase' {
-                DatabaseServer = $DatabaseServer;
-                DatabaseName = $DatabaseName;
-                Credential = $Credential;
-                SQLCredential = $SQLCredential;
-                Path = $Path;
-                IsLiteralPath = $false;
+                DatabaseServer                = $DatabaseServer;
+                DatabaseName                  = $DatabaseName;
+                Credential                    = $Credential;
+                SQLCredential                 = $SQLCredential;
+                Path                          = $Path;
+                IsLiteralPath                 = $false;
                 UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-                Version = $Version;
-                Ensure = $Ensure;
+                Version                       = $Version;
+                Ensure                        = $Ensure;
             }
         }
 
         Write-Host ' Processing "ROWLab\ROWLabRelayServer".' -ForegroundColor Gray;
         ROWRelayServer 'ROWLabRelayServer' {
-            DatabaseServer = $DatabaseServer;
-            DatabaseName = $DatabaseName;
-            Credential = $Credential;
-            Path = $Path;
-            IsLiteralPath = $false;
-            Version = $Version;
+            DatabaseServer                = $DatabaseServer;
+            DatabaseName                  = $DatabaseName;
+            Credential                    = $Credential;
+            Path                          = $Path;
+            IsLiteralPath                 = $false;
+            Version                       = $Version;
             UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-            Port = $RelayServerPort;
-            Ensure = $Ensure;
-            DependsOn = '[ROWDatabase]ROWLabDatabase';
+            Port                          = $RelayServerPort;
+            Ensure                        = $Ensure;
+            DependsOn                     = '[ROWDatabase]ROWLabDatabase';
         }
 
         if ($PSBoundParameters.ContainsKey('BuildingBlockPath')) {
 
             Write-Host ' Processing "ROWLab\ROWLabBuildingBlock".' -ForegroundColor Gray;
             ROWBuildingBlock 'ROWLabBuildingBlock' {
-                Path = $BuildingBlockPath;
-                Credential = $BuildingBlockCredential;
-                DependsOn = '[ROWDatabase]ROWLabDatabase';
+                Path           = $BuildingBlockPath;
+                Credential     = $BuildingBlockCredential;
+                DeleteFromDisk = $DeleteBuildingBlock;
+                DependsOn      = '[ROWDatabase]ROWLabDatabase';
             }
         }
 
@@ -134,63 +139,63 @@ configuration ROWLab {
 
         Write-Host ' Processing "ROWLab\ROWLabRelayServer".' -ForegroundColor Gray;
         ROWRelayServer 'ROWLabRelayServer' {
-            DatabaseServer = $DatabaseServer;
-            DatabaseName = $DatabaseName;
-            Credential = $Credential;
-            Path = $Path;
-            IsLiteralPath = $false;
-            Version = $Version;
+            DatabaseServer                = $DatabaseServer;
+            DatabaseName                  = $DatabaseName;
+            Credential                    = $Credential;
+            Path                          = $Path;
+            IsLiteralPath                 = $false;
+            Version                       = $Version;
             UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-            Port = $RelayServerPort;
-            Ensure = $Ensure;
+            Port                          = $RelayServerPort;
+            Ensure                        = $Ensure;
         }
 
         Write-Host ' Processing "ROWLab\ROWLabDatabase".' -ForegroundColor Gray;
         ROWDatabase 'ROWLabDatabase' {
-            DatabaseServer = $DatabaseServer;
-            DatabaseName = $DatabaseName;
-            Credential = $Credential;
-            SQLCredential = $SQLCredential;
-            Path = $Path;
-            IsLiteralPath = $false;
-            Version = $Version;
+            DatabaseServer                = $DatabaseServer;
+            DatabaseName                  = $DatabaseName;
+            Credential                    = $Credential;
+            SQLCredential                 = $SQLCredential;
+            Path                          = $Path;
+            IsLiteralPath                 = $false;
+            Version                       = $Version;
             UseDatabaseProtocolEncryption = $UseDatabaseProtocolEncryption;
-            Ensure = $Ensure;
-            DependsOn = '[ROWRelayServer]ROWLabRelayServer';
+            Ensure                        = $Ensure;
+            DependsOn                     = '[ROWRelayServer]ROWLabRelayServer';
         }
 
     }
 
     Write-Host ' Processing "ROWLab\ROWLabRelayServerFirewall".' -ForegroundColor Gray;
     xFirewall 'ROWLabRelayServerFirewall' {
-        Name = 'RESONEWorkspace-TCP-{0}-In' -f $RelayServerPort;
-        Group = 'RES ONE Workspace';
-        Action = 'Allow';
-        Direction = 'Inbound';
+        Name        = 'RESONEWorkspace-TCP-{0}-In' -f $RelayServerPort;
+        Group       = 'RES ONE Workspace';
+        Action      = 'Allow';
+        Direction   = 'Inbound';
         DisplayName = 'RES ONE Workspace (Relay Server)';
-        Enabled = $true;
-        Profile = 'Any';
-        LocalPort = $RelayServerPort;
-        Protocol = 'TCP';
+        Enabled     = $true;
+        Profile     = 'Any';
+        LocalPort   = $RelayServerPort;
+        Protocol    = 'TCP';
         Description = 'RES ONE Workspace Relay Server Service';
-        Ensure = $Ensure;
-        DependsOn = '[ROWRelayServer]ROWLabRelayServer'
+        Ensure      = $Ensure;
+        DependsOn   = '[ROWRelayServer]ROWLabRelayServer'
     }
 
     Write-Host ' Processing "ROWLab\ROWLabRelayServerDiscoveryFirewall".' -ForegroundColor Gray;
     xFirewall 'ROWLabRelayServerDiscoveryFirewall' {
-        Name = 'RESONEWorkspace-UDP-1942-In';
-        Group = 'RES ONE Workspace';
-        Action = 'Allow';
-        Direction = 'Inbound';
+        Name        = 'RESONEWorkspace-UDP-1942-In';
+        Group       = 'RES ONE Workspace';
+        Action      = 'Allow';
+        Direction   = 'Inbound';
         DisplayName = 'RES ONE Workspace (Relay Server Discovery)';
-        Enabled = $true;
-        Profile = 'Any';
-        LocalPort = '1942';
-        Protocol = 'UDP';
+        Enabled     = $true;
+        Profile     = 'Any';
+        LocalPort   = '1942';
+        Protocol    = 'UDP';
         Description = 'RES ONE Workspace Relay Server Discovery Service';
-        Ensure = $Ensure;
-        DependsOn = '[ROWRelayServer]ROWLabRelayServer';
+        Ensure      = $Ensure;
+        DependsOn   = '[ROWRelayServer]ROWLabRelayServer';
     }
 
     Write-Host ' Ending "ROWLab".' -ForegroundColor Gray;

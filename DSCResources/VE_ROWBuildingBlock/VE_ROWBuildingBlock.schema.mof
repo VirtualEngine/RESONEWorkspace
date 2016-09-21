@@ -5,4 +5,5 @@ class VE_ROWBuildingBlock : OMI_BaseResource
     [Write, Description("RES ONE Workspace user credential"), EmbeddedInstance("MSFT_Credential")] String Credential;
     [Write, Description("Overwrite existing objects in the RES ONE Workspace database")] Boolean Overwrite;
     [Write, Description("Remove objects in the building block from the RES ONE Workspace database")] Boolean Delete;
+    [Write, Description("Delete the source building block file after import")] Boolean DeleteFromDisk;
 };
