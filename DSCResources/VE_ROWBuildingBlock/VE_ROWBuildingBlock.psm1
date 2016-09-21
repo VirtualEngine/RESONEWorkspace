@@ -222,6 +222,7 @@ function Set-TargetResource {
 
                     ## Import the building block
                     $PSBoundParameters['Path'] = $bb.Path;
+                    [ref] $null = $PSBoundParameters.Remove('DeleteFromDisk');
                     Write-Verbose -Message ($localizedData.ImportingBuildingBlock -f $bb.Path);
                     Import-ROWBuildingBlockFile @PSBoundParameters;
 
@@ -229,6 +230,7 @@ function Set-TargetResource {
                     SetBuildingBlockFileHash -RegistryName $bb.RegistryName -FileHash $bb.FileHash;
 
                     if ($DeleteFromDisk) {
+                        ## TODO: Needs to delete any associated .xbb file too
                         Write-Verbose -Message ($localizedData.DeletingBuildingBlock -f $bb.Path);
                         Remove-Item -Path $bb.Path -Force;
                     }
