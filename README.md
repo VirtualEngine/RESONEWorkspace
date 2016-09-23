@@ -228,3 +228,17 @@ ROWRelayServerAgent [String] #ResourceName
     [ Ensure = [String] { Absent | Present } ]
 }
 ```
+
+ROWReportingServices
+====================
+Installs the RES ONE Workspace reporting services component.
+### Syntax
+```
+ROWReportingServices [String] #ResourceName
+{
+    Path = [String]
+    [ Version = [String] ]
+    [ IsLiteralPath = [Boolean] ]
+    [ Ensure = [String] { Absent | Present } ]
+}
+```

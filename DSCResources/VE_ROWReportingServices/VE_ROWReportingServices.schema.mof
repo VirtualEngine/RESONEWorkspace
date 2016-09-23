@@ -1,0 +1,8 @@
+[ClassVersion("1.0.0.0"), FriendlyName("ROWReportingServices")]
+class VE_ROWReportingServices : OMI_BaseResource
+{
+    [Key, Description("File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI file")] String Path;
+    [Write, Description("RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.1")] String Version;
+    [Write, Description("The specified Path is a literal file reference (bypasses the Version check)")] Boolean IsLiteralPath;
+    [Write, Description("Should this resource be present or absent"), ValueMap{"Present","Absent"}, Values{"Present","Absent"}] String Ensure;
+};

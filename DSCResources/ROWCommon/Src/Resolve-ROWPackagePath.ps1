@@ -6,15 +6,18 @@ function Resolve-ROWPackagePath {
     [CmdletBinding()]
     param (
         ## The literal file path or root search path
-        [Parameter(Mandatory)]  [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## Required RES ONE Workspace/Workspace Manager component
-        [Parameter(Mandatory)] [ValidateSet('Console','AgentOnly','FullAgent','RelayServer')]
+        [Parameter(Mandatory)]
+        [ValidateSet('Console','AgentOnly','FullAgent','RelayServer','ReportingServices')]
         [System.String] $Component,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.2
-        [Parameter(Mandatory)] [ValidateNotNullOrEmpty()]
+        [Parameter(Mandatory)]
+        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
 
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
@@ -142,6 +145,25 @@ function Resolve-ROWPackagePath {
                 }
 
             } #end switch Relay Server
+
+            'ReportingServices' {
+
+                $productDescription = 'Reporting Services';
+
+                if ($productVersion.Build -eq 0) {
+                    ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
+                    $regex = '{0}-Reporting-Services.msi' -f $packageName;
+                }
+                elseif ($productVersion.Build -ge 1) {
+                    ## We're after a specific SR, e.g. specified 9.9.3 or 9.10.2
+                    $regex = '{0}-Reporting-Services-SR{1}.msi' -f $packageName, $productVersion.Build;
+                }
+                else {
+                    ## Find all
+                    $regex = '{0}-Reporting-Services(-SR\d)?.msi' -f $packageName;
+                }
+
+            } #end switch Reporting Services
 
             Default {
 
