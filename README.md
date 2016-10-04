@@ -11,6 +11,7 @@ RES ONE Workspace DSC Resources
 * **ROWLabRelayServerAgent (Compsite)**: Deploys a RES ONE Workspace lab Relay Server agent and configures required firewall rules
 * **ROWRelayServer**: Installs the RES ONE Workspace Relay Server component
 * **ROWRelayServerAgent**: Installs the RES ONE Workspace agent component connected via a RES ONE Workspace Relay Server
+* **ROWReportingServices**: Installs the RES ONE Workspace reporting services component
 
 ## Required Resources
 * **xNetworking**: ROWLab requires https://github.com/PowerShell/xNetworking to create server firewall rules
@@ -151,6 +152,8 @@ ROWLabDatabaseAgent [String] #ResourceName
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
     [ ForceRestart = [Boolean] ]
+    [ InterceptManagedApplications = [Boolean] ]
+    [ Architecture = [String] { x64 | x86 } ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```
@@ -178,6 +181,8 @@ ROWLabRelayServerAgent [String] #ResourceName
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
     [ ForceRestart = [Boolean] ]
+    [ InterceptManagedApplications = [Boolean] ]
+    [ Architecture = [String] { x64 | x86 } ]
     [ Ensure = [String] { Absent | Present } ]
 }
 ```

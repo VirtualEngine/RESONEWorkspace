@@ -69,99 +69,127 @@ configuration ROWLabRelayServerAgent {
         [ValidateNotNull()]
         [System.Boolean] $ForceRestart,
 
+        ## Disables the RES ONE Workspace composer PWRGATE integration
+        [Parameter()]
+        [ValidateNotNull()]
+        [System.Boolean] $InterceptManagedApplications,
+
+        ## The target node's architecture.
+        [Parameter()] [ValidateSet('x64','x86')]
+        [System.String] $Architecture = 'x64',
+
         [Parameter()]
         [ValidateSet('Present','Absent')]
         [System.String] $Ensure = 'Present'
     )
 
-    Import-DscResource -ModuleName LegacyNetworking;
+    Import-DscResource -ModuleName LegacyNetworking, PSDesiredStateConfiguration;
     Import-DscResource -Name ROWRelayServerAgent;
 
     if (($PSBoundParameters.ContainsKey('RelayServerList')) -and
         ($PSBoundParameters.ContainsKey('RelayServerDnsName'))) {
 
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
-            Agent = $Agent;
-            EnvironmentGuid = $EnvironmentGuid;
-            EnvironmentPassword = $EnvironmentPassword;
+            Agent                       = $Agent;
+            EnvironmentGuid             = $EnvironmentGuid;
+            EnvironmentPassword         = $EnvironmentPassword;
             EnvironmentPasswordIsHashed = $EnvironmentPasswordIsHashed;
-            Path = $Path;
-            InheritSettings = $InheritSettings;
-            EnableWorkspaceComposer = $EnableWorkspaceComposer;
-            RelayServerDiscovery = $RelayServerDiscovery;
-            RelayServerList = $RelayServerList;
-            RelayServerDnsName = $RelayServerDnsName;
-            Version = $Version;
-            IsLiteralPath = $IsLiteralPath;
-            ForceRestart = $ForceRestart;
-            Ensure = $Ensure;
+            Path                        = $Path;
+            InheritSettings             = $InheritSettings;
+            EnableWorkspaceComposer     = $EnableWorkspaceComposer;
+            RelayServerDiscovery        = $RelayServerDiscovery;
+            RelayServerList             = $RelayServerList;
+            RelayServerDnsName          = $RelayServerDnsName;
+            Version                     = $Version;
+            IsLiteralPath               = $IsLiteralPath;
+            ForceRestart                = $ForceRestart;
+            Ensure                      = $Ensure;
         }
     }
     elseif ($PSBoundParameters.ContainsKey('RelayServerList')) {
 
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
-            Agent = $Agent;
-            EnvironmentGuid = $EnvironmentGuid;
-            EnvironmentPassword = $EnvironmentPassword;
+            Agent                       = $Agent;
+            EnvironmentGuid             = $EnvironmentGuid;
+            EnvironmentPassword         = $EnvironmentPassword;
             EnvironmentPasswordIsHashed = $EnvironmentPasswordIsHashed;
-            Path = $Path;
-            InheritSettings = $InheritSettings;
-            EnableWorkspaceComposer = $EnableWorkspaceComposer;
-            RelayServerDiscovery = $RelayServerDiscovery;
-            RelayServerList = $RelayServerList;
-            Version = $Version;
-            IsLiteralPath = $IsLiteralPath;
-            ForceRestart = $ForceRestart;
-            Ensure = $Ensure;
+            Path                        = $Path;
+            InheritSettings             = $InheritSettings;
+            EnableWorkspaceComposer     = $EnableWorkspaceComposer;
+            RelayServerDiscovery        = $RelayServerDiscovery;
+            RelayServerList             = $RelayServerList;
+            Version                     = $Version;
+            IsLiteralPath               = $IsLiteralPath;
+            ForceRestart                = $ForceRestart;
+            Ensure                      = $Ensure;
         }
     }
     elseif ($PSBoundParameters.ContainsKey('RelayServerDnsName')) {
 
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
-            Agent = $Agent;
-            EnvironmentGuid = $EnvironmentGuid;
-            EnvironmentPassword = $EnvironmentPassword;
+            Agent                       = $Agent;
+            EnvironmentGuid             = $EnvironmentGuid;
+            EnvironmentPassword         = $EnvironmentPassword;
             EnvironmentPasswordIsHashed = $EnvironmentPasswordIsHashed;
-            Path = $Path;
-            InheritSettings = $InheritSettings;
-            EnableWorkspaceComposer = $EnableWorkspaceComposer;
-            RelayServerDiscovery = $RelayServerDiscovery;
-            RelayServerDnsName = $RelayServerDnsName;
-            Version = $Version;
-            IsLiteralPath = $IsLiteralPath;
-            ForceRestart = $ForceRestart;
-            Ensure = $Ensure;
+            Path                        = $Path;
+            InheritSettings             = $InheritSettings;
+            EnableWorkspaceComposer     = $EnableWorkspaceComposer;
+            RelayServerDiscovery        = $RelayServerDiscovery;
+            RelayServerDnsName          = $RelayServerDnsName;
+            Version                     = $Version;
+            IsLiteralPath               = $IsLiteralPath;
+            ForceRestart                = $ForceRestart;
+            Ensure                      = $Ensure;
         }
     }
     else {
 
         ROWRelayServerAgent 'ROWLabRelayServerAgent' {
-            Agent = $Agent;
-            EnvironmentGuid = $EnvironmentGuid;
-            EnvironmentPassword = $EnvironmentPassword;
+            Agent                       = $Agent;
+            EnvironmentGuid             = $EnvironmentGuid;
+            EnvironmentPassword         = $EnvironmentPassword;
             EnvironmentPasswordIsHashed = $EnvironmentPasswordIsHashed;
-            Path = $Path;
-            InheritSettings = $InheritSettings;
-            EnableWorkspaceComposer = $EnableWorkspaceComposer;
-            RelayServerDiscovery = $RelayServerDiscovery;
-            Version = $Version;
-            IsLiteralPath = $IsLiteralPath;
-            ForceRestart = $ForceRestart;
-            Ensure = $Ensure;
+            Path                        = $Path;
+            InheritSettings             = $InheritSettings;
+            EnableWorkspaceComposer     = $EnableWorkspaceComposer;
+            RelayServerDiscovery        = $RelayServerDiscovery;
+            Version                     = $Version;
+            IsLiteralPath               = $IsLiteralPath;
+            ForceRestart                = $ForceRestart;
+            Ensure                      = $Ensure;
         }
     }
 
     vFirewall 'ROWLabRelayServerAgentFirewall' {
         DisplayName = 'RES ONE Workspace Manger (Agent)';
-        Action = 'Allow';
-        Direction = 'Inbound';
-        Enabled = $true;
-        Profile = 'Any';
-        Protocol = 'TCP';
-        LocalPort = 1942;
+        Action      = 'Allow';
+        Direction   = 'Inbound';
+        Enabled     = $true;
+        Profile     = 'Any';
+        Protocol    = 'TCP';
+        LocalPort   = 1942;
         Description = 'RES ONE Workspace Agent Service';
-        Ensure = $Ensure;
-        DependsOn = '[ROWRelayServerAgent]ROWLabRelayServerAgent';
+        Ensure      = $Ensure;
+        DependsOn   = '[ROWRelayServerAgent]ROWLabRelayServerAgent';
+    }
+
+    if ($PSBoundParametes.ContainsKey('InterceptManagedApplications')) {
+
+        if ($Architecture -eq 'x64') {
+            $key = 'HKEY_LOCAL_MACHINE\SOFTWARE\Wow6432Node\RES\Workspace Manager';
+        }
+        elseif ($Architecture -eq 'x86') {
+            $key = 'HKEY_LOCAL_MACHINE\SOFTWARE\RES\Workspace Manager';
+        }
+
+        Registry 'InterceptManagedApps' {
+            Key       = $key;
+            ValueName = 'InterceptManagedApps';
+            ValueData = if ($InterceptManagedApplications) { 'Yes ' } else { 'No' };
+            ValueType = 'String';
+            Ensure    = $Ensure;
+            DependsOn = '[ROWRelayServerAgent]ROWLabRelayServerAgent';
+        }
     }
 
 } #end configuration ROWLabRelayServerAgent
