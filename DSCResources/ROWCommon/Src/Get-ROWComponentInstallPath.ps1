@@ -7,7 +7,7 @@ function Get-ROWComponentInstallPath {
     [OutputType([System.String])]
     param (
         [Parameter(Mandatory)]
-        [ValidateSet('Agent','Console','RelayServer')]
+        [ValidateSet('Agent','Console','RelayServer','ReportingServices')]
         [System.String] $Component
     )
     process {
@@ -20,16 +20,20 @@ function Get-ROWComponentInstallPath {
         if ($Component -eq 'Agent') {
             ## Full RES ONE Workspace agent has no notable identifier
             $resProduct = $resProducts |
-                Where-Object { $_.DisplayName -match 'Agent' -or ($_.DisplayName -notmatch 'Console' -and $_.DisplayName -notmatch 'Relay Server')}
+                Where-Object { $_.DisplayName -match 'Agent' -or ($_.DisplayName -notmatch 'Console' -and $_.DisplayName -notmatch 'Relay Server' -and $_.DisplayName -notmatch 'Reporting Services')}
         }
         elseif ($Component -eq 'Console') {
 
             $resProduct = $resProducts |
-                Where-Object { $_.DisplayName -notmatch 'Agent' -and $_.DisplayName -notmatch 'Relay Server' }
+                Where-Object { $_.DisplayName -notmatch 'Agent' -and $_.DisplayName -notmatch 'Relay Server' -and $_.DisplayName -notmatch 'Reporting Services' }
         }
         elseif ($Component -eq 'RelayServer') {
             $resProduct = $resProducts |
                 Where-Object { $_.DisplayName -match 'Relay Server' }
+        }
+        elseif ($Component -eq 'ReportingServices') {
+            $resProduct = $resProducts |
+                Where-Object { $_.DisplayName -match 'Reporting Services' }
         }
 
         return $resProduct.InstallLocation;

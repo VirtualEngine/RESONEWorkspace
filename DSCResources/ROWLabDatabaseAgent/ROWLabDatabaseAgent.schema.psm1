@@ -203,7 +203,7 @@ configuration ROWLabDatabaseAgent {
         Registry 'InterceptManagedApps' {
             Key       = $key;
             ValueName = 'InterceptManagedApps';
-            ValueData = if ($InterceptManagedApplications) { 'Yes ' } else { 'No' };
+            ValueData = if ($InterceptManagedApplications) { 'Yes' } else { 'No' };
             ValueType = 'String';
             Ensure    = $Ensure;
             DependsOn = '[ROWDatabaseAgent]ROWLabDatabaseAgent';
