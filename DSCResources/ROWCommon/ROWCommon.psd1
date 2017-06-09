@@ -7,8 +7,19 @@
     Copyright         = '(c) 2016 Virtual Engine Limited. All rights reserved.'
     Description       = 'RES ONE Workspace common function library'
     PowerShellVersion = '4.0'
-    FunctionsToExport = '*'
-    CmdletsToExport   = '*'
-    VariablesToExport = '*'
-    AliasesToExport   = '*'
+    FunctionsToExport = @(
+                            'Assert-ROWComponent',
+                            'Export-ROWBuildingBlockFile',
+                            'Get-InstalledProductEntry',
+                            'Get-LocalizableRegistryKeyValue',
+                            'Get-RegistryValueIgnoreError',
+                            'Get-ROWComponentInstallPath',
+                            'Get-ROWConsolePath',
+                            'Get-ROWErrorCode',
+                            'Get-WindowsInstallerPackageProperty',
+                            'Import-ROWBuildingBlockFile',
+                            'Register-PInvoke',
+                            'Resolve-ROWPackagePath',
+                            'Start-WaitProcess'
+                        );
 }

@@ -63,11 +63,6 @@ function Export-ROWBuildingBlock {
         [System.Management.Automation.SwitchParameter]
         $PassThru
     )
-    begin {
-
-        $pwrtechPath = Get-ROWConsolePath;
-
-    }
     process {
 
         $paths = @();

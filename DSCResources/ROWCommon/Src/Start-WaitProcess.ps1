@@ -6,6 +6,7 @@ function Start-WaitProcess {
         This is an internal function and shouldn't be called from outside.
 #>
     [CmdletBinding(SupportsShouldProcess)]
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSShouldProcess', '')]
     [OutputType([System.Int32])]
     param (
         # Path to process to start.

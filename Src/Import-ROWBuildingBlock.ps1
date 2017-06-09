@@ -54,11 +54,6 @@ function Import-ROWBuildingBlock {
         [Parameter(ValueFromPipelineByPropertyName)]
         [System.Management.Automation.SwitchParameter] $Force
     )
-    begin {
-
-        $pwrtechPath = Get-ROWConsolePath;
-
-    }
     process {
 
         $paths = @()

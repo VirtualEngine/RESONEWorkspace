@@ -3,6 +3,7 @@ configuration ROWLab {
     .SYNOPSIS
         Creates the RES ONE Workspace single node lab deployment.
 #>
+    [System.Diagnostics.CodeAnalysis.SuppressMessageAttribute('PSAvoidUsingWriteHost', '')]
     param (
         ## RES ONE Workspace database server name/instance (equivalient to DBSERVER).
         [Parameter(Mandatory)]
