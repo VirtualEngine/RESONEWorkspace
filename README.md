@@ -1,6 +1,8 @@
 RES ONE Workspace DSC Resources
 ===============================
+
 ## Included Resources
+
 * **ROWBuildingBlock**: Imports a RES ONE Automation building block
 * **ROWConsole**: Installs the RES ONE Workspace console
 * **ROWDatabase**: Installs the RES ONE Workspace and creates the RES ONE Workspace database
@@ -14,13 +16,17 @@ RES ONE Workspace DSC Resources
 * **ROWReportingServices**: Installs the RES ONE Workspace reporting services component
 
 ## Required Resources
+
 * **xNetworking**: ROWLab requires https://github.com/PowerShell/xNetworking to create server firewall rules
 * **LegacyNetworking**: ROWLabDatabaseAgent and ROWLabRelayServerAgent require https://github.com/VirtualEngine/LegacyNetworking to create client firewall rules
 
 ROWBuildingBlock
 ===================
+
 Imports a RES ONE Workspace building block.
+
 ### Syntax
+
 ```
 ROWBuildingBlock [String] #ResourceName
 {
@@ -34,8 +40,11 @@ ROWBuildingBlock [String] #ResourceName
 
 ROWConsole
 ==========
+
 Installs the RES ONE Workspace console component.
+
 ### Syntax
+
 ```
 ROWConsole [String] #ResourceName
 {
@@ -52,8 +61,11 @@ ROWConsole [String] #ResourceName
 
 ROWDatabase
 ===========
+
 Installs the RES ONE Workspace and creates the RES ONE Workspace database.
+
 ### Syntax
+
 ```
 ROWDatabase [String] #ResourceName
 {
@@ -72,8 +84,11 @@ ROWDatabase [String] #ResourceName
 
 ROWDatabaseAgent
 ================
+
 Installs the RES ONE Workspace agent component connected directly to the RES ONE Workspace database.
+
 ### Syntax
+
 ```
 ROWDatabaseAgent [String] #ResourceName
 {
@@ -98,8 +113,11 @@ ROWDatabaseAgent [String] #ResourceName
 
 ROWLab
 ======
+
 Deploys a single-node RES ONE Workspace lab server environment.
+
 ### Syntax
+
 ```
 ROWLab [String] #ResourceName
 {
@@ -120,8 +138,11 @@ ROWLab [String] #ResourceName
 
 ROWLabCitrixProcessIntercept
 ============================
+
 Manages Process Intercept setting on Citrix XenApp/XenDesktop application publishing servers.
+
 ### Syntax
+
 ```
 ROWCitrixProcessIntercept [String] #ResourceName
 {
@@ -132,8 +153,11 @@ ROWCitrixProcessIntercept [String] #ResourceName
 
 ROWLabDatabaseAgent
 ===================
+
 Installs the RES ONE Workspace agent component connected directly to the RES ONE Workspace database and configures local firewall rule(s).
+
 ### Syntax
+
 ```
 ROWLabDatabaseAgent [String] #ResourceName
 {
@@ -160,8 +184,11 @@ ROWLabDatabaseAgent [String] #ResourceName
 
 ROWLabRelayServerAgent
 ======================
+
 Installs the RES ONE Workspace agent component connected via a RES ONE Workspace Relay Server and configures local firewall rule(s).
+
 ### Syntax
+
 ```
 ROWLabRelayServerAgent [String] #ResourceName
 {
@@ -189,8 +216,11 @@ ROWLabRelayServerAgent [String] #ResourceName
 
 ROWRelayServer
 ==============
+
 Installs the RES ONE Workspace Relay Server component.
+
 ### Syntax
+
 ```
 ROWRelayServer [String] #ResourceName
 {
@@ -209,8 +239,11 @@ ROWRelayServer [String] #ResourceName
 
 ROWRelayServerAgent
 ===================
+
 Installs the RES ONE Workspace agent component connected via a RES ONE Workspace Relay Server.
+
 ### Syntax
+
 ```
 ROWRelayServerAgent [String] #ResourceName
 {
@@ -236,8 +269,11 @@ ROWRelayServerAgent [String] #ResourceName
 
 ROWReportingServices
 ====================
+
 Installs the RES ONE Workspace reporting services component.
+
 ### Syntax
+
 ```
 ROWReportingServices [String] #ResourceName
 {
