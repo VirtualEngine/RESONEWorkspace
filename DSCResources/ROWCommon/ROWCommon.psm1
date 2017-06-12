@@ -18,6 +18,7 @@ data localizedData {
         PathCannotContainSpaceError     = Path '{0}' cannot contain spaces. Crazy? I know!
         ROWComponentNotFoundError       = RES ONE Workspace component '{0}' was not found.
         ROWConsoleNotFoundError         = RES ONE Workspace console was not found.
+        InvalidComponentVersionError    = Component '{0}' is not supported in this version. Version {1} is required.
 
         PwrtechExitCode1Error           = The file was not specified in the command line.
         PwrtechExitCodeError2           = The file was not a valid XML file.

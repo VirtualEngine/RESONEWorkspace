@@ -7,17 +7,15 @@ function Resolve-ROWPackagePath {
     param (
         ## The literal file path or root search path
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         ## Required RES ONE Workspace/Workspace Manager component
         [Parameter(Mandatory)]
-        [ValidateSet('Console','AgentOnly','FullAgent','RelayServer','ReportingServices')]
+        [ValidateSet('Console','AgentOnly','FullAgent','RelayServer','ReportingServices','ManagementPortal')]
         [System.String] $Component,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.2
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [System.String] $Version,
 
         ## The specified Path is a literal file reference (bypasses the Version and Architecture checks).
@@ -26,26 +24,54 @@ function Resolve-ROWPackagePath {
     )
 
     if (([System.String]::IsNullOrWhitespace($Version)) -and (-not $IsLiteralPath)) {
+
         throw ($localizedData.SpecifedPathTypeError);
     }
     elseif ($IsLiteralPath) {
+
         if ($Path -notmatch '\.msi$') {
+
             throw ($localizedData.InvalidPathTypeError -f $Path, 'MSI');
         }
     }
-    elseif ($Version -notmatch '^\d\.\d\d?(\.\d\d?|\.\d\d?\.\d\d?)?$') {
+    elseif ($Version -notmatch '^\d\d?\.\d\d?(\.\d\d?|\.\d\d?\.\d\d?)?$') {
+
          throw ($localizedData.InvalidVersionNumberFormatError -f $Version);
+    }
+    else {
+
+        $versionMajor = $Version.Split('.')[0] -as [System.Int32];
+        if (($Component -eq 'ManagementPortal') -and ($versionMajor -lt 10)) {
+            
+            throw ($localizedData.InvalidComponentVersionError -f 'ManagementPortal', 10);
+        }
     }
 
     if ($IsLiteralPath) {
+
         $packagePath = $Path;
     }
     else {
 
         [System.Version] $productVersion = $Version;
-
+        
         switch ($productVersion.Major) {
 
+            10 {
+
+                switch ($productVersion.Minor) {
+
+                    0 {
+                        $packageName = 'RES ONE Workspace';
+                        $productName = 'RES ONE Workspace';
+                    }
+                    Default {
+
+                        throw ($localizedData.UnsupportedVersionError -f $Version);
+                    }
+                }
+
+            }
             9 {
 
                 switch ($productVersion.Minor) {
@@ -63,6 +89,7 @@ function Resolve-ROWPackagePath {
                         $productName = 'RES ONE Workspace 2016';
                     }
                     Default {
+
                         throw ($localizedData.UnsupportedVersionError -f $Version);
                     }
 
@@ -71,6 +98,7 @@ function Resolve-ROWPackagePath {
             }
 
             Default {
+
                 throw ($localizedData.UnsupportedVersionError -f $Version);
             }
 
@@ -85,14 +113,17 @@ function Resolve-ROWPackagePath {
                 $productDescription = 'Agent';
 
                 if ($productVersion.Build -eq 0) {
+
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Agent.msi' -f $packageName;
                 }
                 elseif ($productVersion.Build -ge 1) {
+
                     ## We're after a specific SR, e.g. specified 9.9.3 or 9.10.2
                     $regex = '{0}-SR{1}-Agent.msi' -f $packageName, $productVersion.Build;
                 }
                 else {
+
                     ## Find all
                     $regex = '{0}-Agent(-SR\d)?.msi' -f $packageName;
                 }
@@ -106,14 +137,17 @@ function Resolve-ROWPackagePath {
                 $productDescription = '';
 
                 if ($productVersion.Build -eq 0) {
+
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}.msi' -f $packageName;
                 }
                 elseif ($productVersion.Build -ge 1) {
+
                     ## We're after a specific SR, e.g. specified 9.9.3 or 9.10.2
                     $regex = '{0}-SR{1}.msi' -f $packageName, $productVersion.Build;
                 }
                 else {
+
                     ## Find all
                     $regex = '{0}(-SR\d)?.msi' -f $packageName;
                 }
@@ -128,18 +162,22 @@ function Resolve-ROWPackagePath {
 
                 $architecture = 'x86';
                 if ([System.Environment]::Is64BitOperatingSystem) {
+
                     $architecture = 'x64';
                 }
 
                 if ($productVersion.Build -eq 0) {
+
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Relay-Server\({1}\)\S+.msi' -f $packageName, $architecture;
                 }
                 elseif ($productVersion.Build -ge 1) {
+
                     ## We're after a specific SR, e.g. specified 9.9.3 or 9.10.2
                     $regex = '{0}-SR{1}-Relay-Server\({2}\)\S+.msi' -f $packageName, $productVersion.Build, $architecture;
                 }
                 else {
+
                     ## Find all
                     $regex = '{0}(-SR\d)?-Relay-Server\({1}\)\S+.msi' -f $packageName, $architecture;
                 }
@@ -151,19 +189,30 @@ function Resolve-ROWPackagePath {
                 $productDescription = 'Reporting Services';
 
                 if ($productVersion.Build -eq 0) {
+
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Reporting-Services.msi' -f $packageName;
                 }
                 elseif ($productVersion.Build -ge 1) {
+
                     ## We're after a specific SR, e.g. specified 9.9.3 or 9.10.2
                     $regex = '{0}-Reporting-Services-SR{1}.msi' -f $packageName, $productVersion.Build;
                 }
                 else {
+
                     ## Find all
                     $regex = '{0}-Reporting-Services(-SR\d)?.msi' -f $packageName;
                 }
 
             } #end switch Reporting Services
+
+            'ManagementPortal' {
+
+                ## RES ONE Workspace Management Portal 10.0.0.0.msi
+                $productDescription = 'Management Portal';
+                ## Find all matching the supplied version
+                $regex = '{0} Management Portal {1}\S+.msi' -f $packageName, $Version;
+            }
 
             Default {
 
@@ -172,14 +221,17 @@ function Resolve-ROWPackagePath {
                 $productDescription = 'Console';
 
                 if ($productVersion.Build -eq 0) {
+
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Console.msi' -f $packageName;
                 }
                 elseif ($productVersion.Build -ge 1) {
+
                     ## We're after a specific SR, e.g. specified 9.9.3 or 9.10.2
                     $regex = '{0}-Console-SR{1}.msi' -f $packageName, $productVersion.Build;
                 }
                 else {
+
                     ## Find all
                     $regex = '{0}-Console(-SR\d)?.msi' -f $packageName;
                 }
@@ -202,9 +254,11 @@ function Resolve-ROWPackagePath {
         Write-Verbose ($localizedData.LocatedPackagePath -f $packagePath);
         $isServiceRelease = $packagePath -match '(?<=SR)\d(?=[-\.])';
         if ($isServiceRelease) {
+
             $packageName = '{0} SR{1} {2}' -f $productName, $Matches[0], $productDescription;
         }
         else {
+
             $packageName = '{0} {1}' -f $productName, $productDescription;
         }
         Write-Verbose ($localizedData.UsingPackageName -f $packageName);
@@ -212,6 +266,7 @@ function Resolve-ROWPackagePath {
 
     }
     elseif ([System.String]::IsNullOrEmpty($packagePath)) {
+
        throw ($localizedData.UnableToLocatePackageError -f $Component);
     }
 
