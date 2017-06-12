@@ -11,16 +11,15 @@ function Start-WaitProcess {
     param (
         # Path to process to start.
         [Parameter(Mandatory)]
-        [ValidateNotNullOrEmpty()]
         [System.String] $FilePath,
 
         # Arguments (if any) to apply to the process.
         [Parameter()]
-        #[AllowNull()]
         [System.String[]] $ArgumentList,
 
         # Credential to start the process as.
-        [Parameter()] [AllowNull()]
+        [Parameter()]
+        [AllowNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.CredentialAttribute()] $Credential,
 
@@ -43,6 +42,7 @@ function Start-WaitProcess {
 
         $displayParams = '<None>';
         if ($ArgumentList) {
+
             $arguments = [System.String]::Join(' ', $ArgumentList);
             $displayParams = $arguments;
             $startInfo.Arguments = $arguments;
@@ -70,6 +70,7 @@ function Start-WaitProcess {
                 $process.WaitForExit();
 
                 if ($process) {
+                    
                     $exitCode = $process.ExitCode;
                 }
             }
@@ -80,7 +81,7 @@ function Start-WaitProcess {
         }
         catch {
 
-            throw $_;
+            throw;
         }
 
     } #end process

@@ -19,7 +19,6 @@ function Export-ROWBuildingBlockFile {
         # Specifies a path to a location.
         [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName = 'Type')]
         [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName = 'Guid')]
-        [ValidateNotNullOrEmpty()]
         [System.String] $Path,
 
         # Specifies the specific feature(s) that need to be included in the Building Block. If no types are specified,
@@ -87,10 +86,12 @@ function Export-ROWBuildingBlockFile {
         );
 
         if ($PSBoundParameters.ContainsKey('Type')) {
+
             $exportTypes = [System.String]::Join(',', $Type);
             $arguments += '/type={0}' -f $exportTypes;
         }
         elseif ($PSBoundParameters.ContainsKey('Guid')) {
+
             $arguments += '/guid={{{0}}}' -f $Guid.ToString().ToUpper();
         }
 
@@ -121,6 +122,7 @@ function Export-ROWBuildingBlockFile {
                 $buildingBlockXbbPath = Join-Path -Path $buildingBlockXml.DirectoryName -ChildPath $buildingBlockXbbFilename;
 
                 if (Test-Path -Path $buildingBlockXbbPath) {
+
                     Write-Output -InputObject (Get-Item -Path $buildingBlockXbbPath);
                 }
             }

@@ -18,6 +18,7 @@ function Get-ROWComponentInstallPath {
             Where-Object { $_.DisplayName -match '^RES' -and $_.DisplayName -match 'Workspace' }
 
         if ($Component -eq 'Agent') {
+
             ## Full RES ONE Workspace agent has no notable identifier
             $resProduct = $resProducts |
                 Where-Object { $_.DisplayName -match 'Agent' -or ($_.DisplayName -notmatch 'Console' -and $_.DisplayName -notmatch 'Relay Server' -and $_.DisplayName -notmatch 'Reporting Services')}
@@ -28,10 +29,12 @@ function Get-ROWComponentInstallPath {
                 Where-Object { $_.DisplayName -notmatch 'Agent' -and $_.DisplayName -notmatch 'Relay Server' -and $_.DisplayName -notmatch 'Reporting Services' }
         }
         elseif ($Component -eq 'RelayServer') {
+
             $resProduct = $resProducts |
                 Where-Object { $_.DisplayName -match 'Relay Server' }
         }
         elseif ($Component -eq 'ReportingServices') {
+            
             $resProduct = $resProducts |
                 Where-Object { $_.DisplayName -match 'Reporting Services' }
         }

@@ -12,6 +12,7 @@ function Assert-ROWComponent {
     process {
 
         if (-not (Get-ROWComponentInstallPath -Component $Component)) {
+            
             throw ($localizedData.ROWComponentNotFoundError -f $Component);
         }
 

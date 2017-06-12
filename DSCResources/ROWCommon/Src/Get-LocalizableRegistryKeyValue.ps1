@@ -15,6 +15,7 @@ function Get-LocalizableRegistryKeyValue {
 
         $result = $RegistryKey.GetValue("{0}_Localized" -f $ValueName);
         if (-not $result) {
+            
             $result = $RegistryKey.GetValue($ValueName);
         }
         return $result;

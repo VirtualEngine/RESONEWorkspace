@@ -16,6 +16,7 @@ function Get-ROWConsolePath {
         $pwrtechRootPath = Get-ROWComponentInstallPath -Component 'Console';
         $pwrtechPath = Join-Path -Path $pwrtechRootPath -ChildPath 'pwrtech.exe';
         if (-not (Test-Path -Path $pwrtechPath -PathType Leaf)) {
+            
             throw ($localizedData.ROWConsoleNotFoundError);
         }
         return $pwrtechPath;

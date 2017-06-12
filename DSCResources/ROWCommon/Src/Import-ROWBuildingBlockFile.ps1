@@ -9,13 +9,11 @@ function Import-ROWBuildingBlockFile {
         # Specifies a path to one or more locations. Wildcards are permitted.
         [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName = 'Path')]
         [Parameter(Mandatory, Position = 0, ValueFromPipeline, ValueFromPipelineByPropertyName, ParameterSetName = 'PathCredential')]
-        [ValidateNotNullOrEmpty()]
         [SupportsWildcards()]
         [System.String] $Path,
 
         # Windows authentication username and password
         [Parameter(Mandatory, ValueFromPipelineByPropertyName, ParameterSetName = 'PathCredential')]
-        [ValidateNotNull()]
         [System.Management.Automation.PSCredential]
         [System.Management.Automation.Credential()] $Credential,
 
