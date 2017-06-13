@@ -7,6 +7,7 @@ class VE_ROWDatabase : OMI_BaseResource
     [Required, Description("Microsoft SQL database credentials used to create the database (DBCREATEUSER/DBCREATEPASSWORD)"), EmbeddedInstance("MSFT_Credential")] String SQLCredential;
     [Required, Description("File path containing the RES ONE Workspace MSIs or the literal path to the legacy console MSI file")] String Path;
     [Write, Description("Use Database protocol encryption")] Boolean UseDatabaseProtocolEncryption;
+    [Write, Description("Use FIPS compliant security algorithms to encrypt data in the database")] Boolean UseFIPSEncryption;
     [Write, Description("Path to RES ONE Workspace license file")] String LicensePath;
     [Write, Description("RES ONE Workspace component version to be installed, i.e. 9.9 or 9.10.1")] String Version;
     [Write, Description("The specified Path is a literal file reference (bypasses the Version check)")] Boolean IsLiteralPath;

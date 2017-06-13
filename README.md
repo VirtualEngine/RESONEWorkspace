@@ -75,6 +75,7 @@ ROWDatabase [String] #ResourceName
     SQLCredential = [PSCredential]
     Path = [String]
     [ UseDatabaseProtocolEncryption = [Boolean] ]
+    [ UseFIPSEncryption = [Boolean] ]
     [ LicensePath = [String] ]
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]

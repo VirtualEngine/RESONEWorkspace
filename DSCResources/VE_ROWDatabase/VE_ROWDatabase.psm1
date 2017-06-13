@@ -40,13 +40,17 @@ function Get-TargetResource {
         [System.String] $Path,
 
         ## File path to a RES ONE Service Store license file to import.
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $LicensePath,
 
         ## Use Database protocol encryption
         [Parameter()]
-        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
+
+        ## Use FIPS compliant security algorithms to encrypt data in the database
+        [Parameter()]
+        [System.Boolean] $UseFIPSEncryption,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
         [Parameter()]
@@ -71,6 +75,7 @@ function Get-TargetResource {
         ProductName = $productName;
         Ensure = if (Get-InstalledProductEntry -Name $productName) { 'Present' } else { 'Absent' };
     }
+
     return $targetResource;
 
 } #end function Get-TargetResource
@@ -106,13 +111,17 @@ function Test-TargetResource {
         [System.String] $Path,
 
         ## File path to a RES ONE Service Store license file to import.
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $LicensePath,
 
         ## Use Database protocol encryption
         [Parameter()]
-        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
+
+        ## Use FIPS compliant security algorithms to encrypt data in the database
+        [Parameter()]
+        [System.Boolean] $UseFIPSEncryption,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
         [Parameter()]
@@ -130,11 +139,13 @@ function Test-TargetResource {
 
     $targetResource = Get-TargetResource @PSBoundParameters;
     if ($Ensure -ne $targetResource.Ensure) {
+
         Write-Verbose -Message ($localizedData.ResourceIncorrectPropertyState -f 'Ensure', $Ensure, $targetResource.Ensure);
         Write-Verbose -Message ($localizedData.ResourceNotInDesiredState -f $targetResource.ProductName);
         return $false;
     }
     else {
+
         Write-Verbose -Message ($localizedData.ResourceInDesiredState -f $targetResource.ProductName);
         return $true;
     }
@@ -172,13 +183,17 @@ function Set-TargetResource {
         [System.String] $Path,
 
         ## File path to a RES ONE Service Store license file to import.
-        [Parameter()] [ValidateNotNullOrEmpty()]
+        [Parameter()]
+        [ValidateNotNullOrEmpty()]
         [System.String] $LicensePath,
 
         ## Use Database protocol encryption
         [Parameter()]
-        [ValidateNotNull()]
         [System.Boolean] $UseDatabaseProtocolEncryption,
+
+        ## Use FIPS compliant security algorithms to encrypt data in the database
+        [Parameter()]
+        [System.Boolean] $UseFIPSEncryption,
 
         ## RES ONE Workspace component version to be installed, i.e. 9.9.3
         [Parameter()]
@@ -210,12 +225,23 @@ function Set-TargetResource {
         )
 
         if ($PSBoundParameters.ContainsKey('UseDatabaseProtocolEncryption')) {
+
             if ($UseDatabaseProtocolEncryption -eq $true) {
+
                 $arguments += 'DBPROTOCOLENCRYPTION="yes"';
             }
         }
 
+        if ($PSBoundParameters.ContainsKey('UseFIPSEncryption')) {
+
+            if ($UseFIPSEncryption -eq $true) {
+                
+                $arguments += 'DBFIPS="yes"';
+            }
+        }
+
         if ($PSBoundParameters.ContainsKey('LicensePath')) {
+
             $arguments += 'DBIMPORTLICENSE="{0}"' -f $LicensePath;
         }
 
