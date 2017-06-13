@@ -1,6 +1,6 @@
 @{
     RootModule        = 'RESONEWorkspace.psm1';
-    ModuleVersion     = '2.2.4';
+    ModuleVersion     = '2.3.0';
     GUID              = 'da2df370-2b26-4319-aae7-ec4eebfd478d';
     Author            = 'Iain Brighton';
     CompanyName       = 'Virtual Engine';

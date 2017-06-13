@@ -1,0 +1,11 @@
+[ClassVersion("1.0.0"), FriendlyName("ROWManagementPortal")]
+class VE_ROWManagementPortal : OMI_BaseResource
+{
+    [Key, Description("IIS website host header/hostname")] String Hostname;
+    [Required, Description("File path containing the RES ONE Workspace MSIs or the literal path to the legacy console/Sync Tool MSI")] String Path;
+    [Required, Description("TLS/SSL certificate thumbprint")] String CertificateThumbprint;
+    [Write, Description("RES ONE Workspace component version to be installed, i.e. 8.0.3.0")] String Version;
+    [Write, Description("Specified path is a literal file reference")] Boolean IsLiteralPath;
+    [Write, ValueMap{"Present", "Absent"},Values{"Present", "Absent"}] String Ensure;
+    [Read, Description("Windows Installer Product Name")] String ProductName;
+};

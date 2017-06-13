@@ -62,7 +62,9 @@ function Resolve-ROWPackagePath {
                 switch ($productVersion.Minor) {
 
                     0 {
-                        $packageName = 'RES ONE Workspace';
+                        
+                        $packageName = 'RES-ONE-Workspace';
+                        ## ProductName is only used by the 'ManagementPortal' component
                         $productName = 'RES ONE Workspace';
                     }
                     Default {
@@ -104,6 +106,24 @@ function Resolve-ROWPackagePath {
 
         } #end switch version major
 
+        ## Calculate the version search Regex. ROW v10 uses version numbers in the Console, Agent and Dispatcher MSIs
+        ## This isn't used by the 'Installer' component as that has the SR moniker instead (like RES WM).
+        if (($productVersion.Build -eq -1) -and ($productVersion.Revision -eq -1)) {
+
+            ## We only have 'Major.Minor'
+            $versionRegex = '{0}.{1}.\S+' -f $productVersion.Major, $productVersion.Minor;
+        }
+        elseif ($productVersion.Revision -eq -1) {
+
+            ## We have 'Major.Minor.Build'
+            $versionRegex = '{0}.{1}.{2}.\S+' -f $productVersion.Major, $productVersion.Minor, $productVersion.Build;
+        }
+        else {
+
+            ## We have explicit version.
+            $versionRegex = '{0}.{1}.{2}.{3}' -f $productVersion.Major, $productVersion.Minor, $productVersion.Build, $productVersion.Revision;
+        }
+
         switch ($Component) {
 
             'AgentOnly' {
@@ -112,7 +132,11 @@ function Resolve-ROWPackagePath {
 
                 $productDescription = 'Agent';
 
-                if ($productVersion.Build -eq 0) {
+                if ($productVersion.Major -ge 10) {
+
+                    $regex = '{0}-Agent-{1}.msi' -f $packageName, $versionRegex;
+                }
+                elseif ($productVersion.Build -eq 0) {
 
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Agent.msi' -f $packageName;
@@ -136,7 +160,11 @@ function Resolve-ROWPackagePath {
 
                 $productDescription = '';
 
-                if ($productVersion.Build -eq 0) {
+                if ($productVersion.Major -ge 10) {
+
+                    $regex = '{0}-{1}.msi' -f $packageName, $versionRegex;
+                }
+                elseif ($productVersion.Build -eq 0) {
 
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}.msi' -f $packageName;
@@ -166,7 +194,11 @@ function Resolve-ROWPackagePath {
                     $architecture = 'x64';
                 }
 
-                if ($productVersion.Build -eq 0) {
+                if ($productVersion.Major -ge 10) {
+
+                    $regex = '{0}-Relay-Server\({1}\)-{2}.msi' -f $packageName, $architecture, $versionRegex;
+                }
+                elseif ($productVersion.Build -eq 0) {
 
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Relay-Server\({1}\)\S+.msi' -f $packageName, $architecture;
@@ -188,7 +220,11 @@ function Resolve-ROWPackagePath {
 
                 $productDescription = 'Reporting Services';
 
-                if ($productVersion.Build -eq 0) {
+                if ($productVersion.Major -ge 10) {
+
+                    $regex = '{0}-Reporting-Services-{1}.msi' -f $packageName, $versionRegex;
+                }
+                elseif ($productVersion.Build -eq 0) {
 
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Reporting-Services.msi' -f $packageName;
@@ -209,9 +245,9 @@ function Resolve-ROWPackagePath {
             'ManagementPortal' {
 
                 ## RES ONE Workspace Management Portal 10.0.0.0.msi
-                $productDescription = 'Management Portal';
+                #$productDescription = 'Management Portal';
                 ## Find all matching the supplied version
-                $regex = '{0} Management Portal {1}\S+.msi' -f $packageName, $Version;
+                $regex = '{0} Management Portal {1}\S+.msi' -f $productName, $versionRegex;
             }
 
             Default {
@@ -220,7 +256,11 @@ function Resolve-ROWPackagePath {
 
                 $productDescription = 'Console';
 
-                if ($productVersion.Build -eq 0) {
+                if ($productVersion.Major -ge 10) {
+
+                    $regex = '{0}-Console-{1}.msi' -f $packageName, $versionRegex;
+                }
+                elseif ($productVersion.Build -eq 0) {
 
                     ## We're after the RTM release, e.g. specified 9.9.0 or 9.10.0
                     $regex = '{0}-Console.msi' -f $packageName;
