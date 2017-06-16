@@ -12,6 +12,7 @@ RES ONE Workspace DSC Resources
 * **ROWLabDatabaseAgent (Composite)**: Deploys a RES ONE Workspace lab database agent and configures required firewall rules
 * **ROWLabRelayServerAgent (Composite)**: Deploys a RES ONE Workspace lab Relay Server agent and configures required firewall rules
 * **ROWManagementPortal**: Deploys the RES ONE Workspace v10 (and later) web management portal
+* **ROWManagementPortalConfig**: Creates a RES ONE Workspace v10 (and later) web management portal configuration file
 * **ROWRelayServer**: Installs the RES ONE Workspace Relay Server component
 * **ROWRelayServerAgent**: Installs the RES ONE Workspace agent component connected via a RES ONE Workspace Relay Server
 * **ROWReportingServices**: Installs the RES ONE Workspace reporting services component
@@ -232,6 +233,28 @@ ROWManagementPortal [String] #ResourceName
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
     [ Ensure = [String] { Absent | Present }]
+}
+```
+
+ROWManagementPortalConfig
+=========================
+
+Creates RES ONE Workspace v10 (and later) web management portal configuration file.
+
+### Syntax
+
+```
+ROWManagementPortalConfig [String] #ResourceName
+{
+    Path = [string]
+    DatabaseServer = [String]
+    DatabaseName = [String]
+    [Credential = [PSCredential]]
+    [IdentityBrokerUrl = [String] ]
+    [ApplicationUrl = [String] ]
+    [ClientId = [String] ]
+    [ClientSecret = [PSCredential]]
+    [Ensure = [string]{ Absent | Present } ]
 }
 ```
 

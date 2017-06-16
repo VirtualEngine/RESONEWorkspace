@@ -20,6 +20,7 @@
                             'Import-ROWBuildingBlockFile',
                             'Register-PInvoke',
                             'Resolve-ROWPackagePath',
+                            'Save-ROWManagementPortalConfiguration',
                             'Start-WaitProcess'
                         );
 }
