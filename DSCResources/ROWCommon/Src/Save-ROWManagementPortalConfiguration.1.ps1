@@ -3,7 +3,7 @@ function Save-ROWManagementPortalConfiguration {
     .SYNOPSIS
         Writes a RES ONE Workspace Management Portal web configuration file.
 #>
-    [CmdletBinding(DefaultParameterSetName = 'WindowsAuthentication')]
+    [CmdletBinding(SupportsShouldProcess, DefaultParameterSetName = 'WindowsAuthentication')]
     param (
         ## Path to RES ONE Workspace Management Portal web configuration file
         [Parameter(Mandatory, ValueFromPipeline)]
