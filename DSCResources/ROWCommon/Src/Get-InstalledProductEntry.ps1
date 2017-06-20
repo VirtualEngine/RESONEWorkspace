@@ -4,6 +4,7 @@ function Get-InstalledProductEntry {
         https://github.com/PowerShell/xPSDesiredStateConfiguration/blob/dev/DSCResources/MSFT_xPackageResource/MSFT_xPackageResource.psm1
 #>
     [CmdletBinding()]
+    [OutputType([System.Collections.Hashtable])]
     param (
         [Parameter()]
         [ValidateNotNullOrEmpty()]
