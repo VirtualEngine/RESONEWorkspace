@@ -14,7 +14,7 @@ function Get-TargetResource {
     param (
         ## IIS website host header/name, i.e. res.lab.local.
         [Parameter(Mandatory)]
-        [System.String] $Hostname,
+        [System.String] $HostHeader,
 
         ## File path containing the RES ONE Workspace MSIs or the literal path to the management portal MSI.
         [Parameter(Mandatory)]
@@ -23,6 +23,11 @@ function Get-TargetResource {
         ## Installed certificate thumbprint to bind to the IIS site.
         [Parameter(Mandatory)]
         [System.String] $CertificateThumbprint,
+
+        ## IIS website port binding.
+        ## NOTE: equivalient to the PORT_SSL parameter.
+        [Parameter()]
+        [System.UInt16] $Port,
 
         ## RES ONE Workspace component version to be installed, i.e. 8.0.3.0
         [Parameter()]
@@ -51,7 +56,7 @@ function Get-TargetResource {
     $productName = $msiProductName.Trim();
 
     $targetResource = @{
-        Hostname = $Hostname;
+        HostHeader = $HostHeader;
         Path = $setupPath;
         CertificateThumbprint = $CertificateThumbprint;
         ProductName = $productName;
@@ -68,7 +73,7 @@ function Test-TargetResource {
     param (
         ## IIS website host header/name, i.e. res.lab.local.
         [Parameter(Mandatory)]
-        [System.String] $Hostname,
+        [System.String] $HostHeader,
 
         ## File path containing the RES ONE Workspace MSIs or the literal path to the management portal MSI.
         [Parameter(Mandatory)]
@@ -77,6 +82,11 @@ function Test-TargetResource {
         ## Installed certificate thumbprint to bind to the IIS site.
         [Parameter(Mandatory)]
         [System.String] $CertificateThumbprint,
+
+        ## IIS website port binding.
+        ## NOTE: equivalient to the PORT_SSL parameter.
+        [Parameter()]
+        [System.UInt16] $Port,
 
         ## RES ONE Workspace component version to be installed, i.e. 8.0.3.0
         [Parameter()]
@@ -117,7 +127,7 @@ function Set-TargetResource {
     param (
         ## IIS website host header/name, i.e. res.lab.local.
         [Parameter(Mandatory)]
-        [System.String] $Hostname,
+        [System.String] $HostHeader,
 
         ## File path containing the RES ONE Workspace MSIs or the literal path to the management portal MSI.
         [Parameter(Mandatory)]
@@ -126,6 +136,11 @@ function Set-TargetResource {
         ## Installed certificate thumbprint to bind to the IIS site.
         [Parameter(Mandatory)]
         [System.String] $CertificateThumbprint,
+
+        ## IIS website port binding.
+        ## NOTE: equivalient to the PORT_SSL parameter.
+        [Parameter()]
+        [System.UInt16] $Port,
 
         ## RES ONE Workspace component version to be installed, i.e. 8.0.3.0
         [Parameter()]
@@ -154,9 +169,14 @@ function Set-TargetResource {
 
         $arguments = @(
             ('/i "{0}"' -f $setupPath),
-            ('HOSTNAME="{0}"' -f $Hostname),
+            ('HOSTNAME="{0}"' -f $HostHeader),
             ('SSL_CERTIFICATE_THUMBPRINT="{0}"' -f $CertificateThumbprint)
         )
+
+        if ($PSBoundParameters.ContainsKey('Port')) {
+
+            $arguments += 'PORT="{0}"' -f $Port;
+        }
 
     }
     elseif ($Ensure -eq 'Absent') {
