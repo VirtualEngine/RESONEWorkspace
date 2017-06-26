@@ -14,7 +14,7 @@ Properties {
     $releasePath = (Join-Path -Path $buildPath -ChildPath $moduleName);
     $thumbprint = '76BF0DF07634549D8134763F2776598E15BD1D42';
     $timeStampServer = 'http://timestamp.verisign.com/scripts/timestamp.dll';
-    $exclude = @('.git*', '.vscode', 'Build', 'Tests', 'Default.ps1','DSCResource.Tests');
+    $exclude = @('.git*','.vscode','Build','Default.ps1','DSCResource.Tests');
     $signExclude = @('Examples','DSCResources');
 }
 
@@ -38,7 +38,7 @@ Task Clean -Depends Init {
 
 Task Test {
     $invokePesterParams = @{
-        Path = "$basePath\Tests";
+        Path = "$basePath\Tests\Unit","$basePath\Tests\Integration";
         OutputFile = "$releasePath\TestResult.xml";
         OutputFormat = 'NUnitXml';
         Strict = $true;

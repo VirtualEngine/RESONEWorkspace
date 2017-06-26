@@ -11,8 +11,8 @@ RES ONE Workspace DSC Resources
 * **ROWLabCitrixProcessIntercept (Composite)**: Manages RES ONE Workspace Citrix Process Intercept
 * **ROWLabDatabaseAgent (Composite)**: Deploys a RES ONE Workspace lab database agent and configures required firewall rules
 * **ROWLabRelayServerAgent (Composite)**: Deploys a RES ONE Workspace lab Relay Server agent and configures required firewall rules
-* **ROWManagementPortal**: Deploys the RES ONE Workspace v10 (and later) web management portal
-* **ROWManagementPortalConfig**: Creates a RES ONE Workspace v10 (and later) web management portal configuration file
+* **ROWManagementPortal**: Deploys the RES ONE Workspace (v10 and later) web management portal
+* **ROWManagementPortalConfig**: Creates a RES ONE Workspace (v10 and later) web management portal configuration file
 * **ROWRelayServer**: Installs the RES ONE Workspace Relay Server component
 * **ROWRelayServerAgent**: Installs the RES ONE Workspace agent component connected via a RES ONE Workspace Relay Server
 * **ROWReportingServices**: Installs the RES ONE Workspace reporting services component
@@ -220,16 +220,17 @@ ROWLabRelayServerAgent [String] #ResourceName
 ROWManagementPortal
 ===================
 
-Installs the RES ONE Workspace v10 (and later) web management portal component.
+Installs the RES ONE Workspace (v10 and later) web management portal component.
 
 ### Syntax
 
 ```
 ROWManagementPortal [String] #ResourceName
 {
-    Hostname = [String]
+    HostHeader = [String]
     CertificateThumbprint = [String]
     Path = [String]
+    [ Port = [UInt16] ]
     [ Version = [String] ]
     [ IsLiteralPath = [Boolean] ]
     [ Ensure = [String] { Absent | Present }]
@@ -239,7 +240,7 @@ ROWManagementPortal [String] #ResourceName
 ROWManagementPortalConfig
 =========================
 
-Creates RES ONE Workspace v10 (and later) web management portal configuration file.
+Creates RES ONE Workspace (v10 and later) web management portal configuration file.
 
 ### Syntax
 
