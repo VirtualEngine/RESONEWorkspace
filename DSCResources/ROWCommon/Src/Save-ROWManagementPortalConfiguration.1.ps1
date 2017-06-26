@@ -55,7 +55,8 @@ $webConsoleManagementServiceSqlAuthenticationTemplate = @'
 '@
 
 $webConsoleManagementServiceWindowsAuthenticationTemplate = @'
-<database useWindowsAuthentication="true" />
+<database type="<#DatabaseType#>" server="<#DatabaseServer#>" name="<#DatabaseName#>"
+            useWindowsAuthentication="true" />
 '@
 
 $webConsoleSqlAuthenticationTemplate = @'
