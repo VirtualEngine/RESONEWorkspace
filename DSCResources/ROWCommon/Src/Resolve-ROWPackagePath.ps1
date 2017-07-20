@@ -64,8 +64,10 @@ function Resolve-ROWPackagePath {
                     0 {
                         
                         $packageName = 'RES-ONE-Workspace';
-                        ## ProductName is only used by the 'ManagementPortal' component
-                        $productName = 'RES ONE Workspace';
+                    }
+                    1 {
+                        
+                        $packageName = 'RES ONE Workspace';
                     }
                     Default {
 
@@ -79,16 +81,16 @@ function Resolve-ROWPackagePath {
                 switch ($productVersion.Minor) {
 
                     9 {
+
                         $packageName = 'RES-WM-2014';
-                        $productName = 'RES Workspace Manager 2014'
                     }
                     10 {
+
                         $packageName = 'RES-ONE-Workspace-2015';
-                        $productName = 'RES ONE Workspace 2015';
                     }
                     12 {
+
                         $packageName = 'RES-ONE-Workspace-2016';
-                        $productName = 'RES ONE Workspace 2016';
                     }
                     Default {
 
@@ -245,9 +247,7 @@ function Resolve-ROWPackagePath {
             'ManagementPortal' {
 
                 ## RES ONE Workspace Management Portal 10.0.0.0.msi
-                #$productDescription = 'Management Portal';
-                ## Find all matching the supplied version
-                $regex = '{0} Management Portal {1}\S+.msi' -f $productName, $versionRegex;
+                $regex = '{0} Management Portal {1}\S+.msi' -f $packageName, $versionRegex;
             }
 
             Default {
@@ -280,6 +280,10 @@ function Resolve-ROWPackagePath {
 
         } #end switch component
 
+        ## RES renamed the v10.0.400.x releases with spaces rather than hypens :|. Therefore, it's
+        ## easier just to search for matches with or without hypens (also works for v10.1)
+        $regex = $regex.Replace('-', '[-|\s]');
+
         Write-Verbose -Message ($localizedData.SearchFilePatternMatch -f $regex);
 
         $packagePath = Get-ChildItem -Path $Path -Recurse |
@@ -292,16 +296,6 @@ function Resolve-ROWPackagePath {
     if ((-not $IsLiteralPath) -and (-not [System.String]::IsNullOrEmpty($packagePath))) {
 
         Write-Verbose ($localizedData.LocatedPackagePath -f $packagePath);
-        $isServiceRelease = $packagePath -match '(?<=SR)\d(?=[-\.])';
-        if ($isServiceRelease) {
-
-            $packageName = '{0} SR{1} {2}' -f $productName, $Matches[0], $productDescription;
-        }
-        else {
-
-            $packageName = '{0} {1}' -f $productName, $productDescription;
-        }
-        Write-Verbose ($localizedData.UsingPackageName -f $packageName);
         return $packagePath;
 
     }
