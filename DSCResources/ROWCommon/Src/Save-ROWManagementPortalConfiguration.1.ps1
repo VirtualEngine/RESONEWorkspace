@@ -74,9 +74,6 @@ $webConsoleWindowsAuthenticationTemplate = @'
     if ($null -ne $Credential) {
 
         $managementService = $webConsoleManagementServiceSqlAuthenticationTemplate;
-        $managementService = $managementService.Replace('<#DatabaseType#>', 'MSSQL');
-        $managementService = $managementService.Replace('<#DatabaseServer#>', $DatabaseServer);
-        $managementService = $managementService.Replace('<#DatabaseName#>', $DatabaseName);
         $managementService = $managementService.Replace('<#DatabaseUser#>', $Credential.Username);
         $managementService = $managementService.Replace('<#DatabasePassword#>', $Credential.GetNetworkCredential().Password);
 
@@ -86,6 +83,10 @@ $webConsoleWindowsAuthenticationTemplate = @'
 
         $webConsoleConfig = $webConsoleConfigTemplate.Replace('<#ManagementServicePlaceholder#>', $webConsoleManagementServiceWindowsAuthenticationTemplate);
     }
+
+    $webConsoleConfig = $webConsoleConfig.Replace('<#DatabaseType#>', 'MSSQL');
+    $webConsoleConfig = $webConsoleConfig.Replace('<#DatabaseServer#>', $DatabaseServer);
+    $webConsoleConfig = $webConsoleConfig.Replace('<#DatabaseName#>', $DatabaseName);
 
     if ($PSCmdlet.ParameterSetName -eq 'IdentityBroker') {
 
